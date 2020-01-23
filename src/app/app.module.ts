@@ -15,11 +15,13 @@ import { AssignRolesComponent } from './modules/admin-module/department/assignRo
 import { InitializeProjectComponent } from './modules/admin-module/project/initialize-project/initialize-project.component';
 import { AssignProjectComponent } from './modules/admin-module/project/assign-project/assign-project.component';
 import { ProjectListComponent } from './modules/admin-module/project/project-list/project-list.component';
+import { AdminHeaderComponent } from './modules/admin-module/admin-header/admin-header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    AdminHeaderComponent,
     LoginComponent,
     SignupComponent,
     ErrorDisplayComponent,
