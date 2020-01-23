@@ -1,0 +1,77 @@
+<div class = "col-md-6 container">
+  <form class = "form-inline" (submit) = "onSearch(deptForm)" #deptForm="ngForm">
+    <label for="departmentId" class = "labelInput mb-2 mr-sm-2">Department Id: </label>
+    <select class="custom-select mb-2 mr-sm-2" name = "department" ngModel #departmentInput= "ngModel" ngModel>
+      <option value = "" disabled>Select</option>
+      <option *ngFor = "let department of departments" [ngValue] = "department">{{ department }}</option>
+    </select>
+    <button type = "submit" class = "btn btn-secondary mb-2">Search</button>
+  </form>
+
+  <app-error-display
+    [displayError]= 'displayError'
+    errorMsg="No projects found for this department"
+  >
+  </app-error-display>
+</div>
+
+<br>
+
+<table class="table table-bordered text-center table-hover">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">SNo.</th>
+      <th scope="col">Project Id</th>
+      <th scope="col">Project Name</th>
+      <th scope="col">Client</th>
+      <th scope="col">Initial Department</th>
+      <th scope="col">Current Department</th>
+      <th scope="col">Start Date</th>
+      <th scope="col">Current Status</th>
+      <th scope="col">Change Status</th>
+      <th scope="col">Assign Department</th>
+      <th scope="col">Assign Manager</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor = "let project of projectData; let i = index">
+      <th scope="row"> {{ i +1 }} </th>
+      <td>{{ project.project_id }}</td>
+      <td>{{ project.project_name }}</td>
+      <td>{{ project.client }}</td>
+      <td>{{ project.initial_department_id }}</td>
+      <td>{{ project.current_department }}</td>
+      <td>{{ project.start_date | date: 'dd/MM/yyyy' }}</td>
+      <td>{{ project.status }}</td>
+      <td>
+        <select class="custom-select" #status (change) = "selectStatus(status.value)">
+          <option value = "" disabled>Select</option>
+          <option *ngFor = "let status of statuses" [value] = "status">{{ status }}</option>
+        </select>
+      </td>
+      <td>
+        <select class="custom-select" #assignedDepartment (change) = "selectDepartment(assignedDepartment.value)">
+          <option value = "" disabled>Select</option>
+          <option *ngFor = "let department of departments" [value] = "department">{{ department }}</option>
+        </select>
+      </td>
+      <td>
+        <select
+          class="custom-select text-uppercase"
+          #assignedManager
+          (change) = "selectManager(assignedManager.value)"
+        >
+          <option value = "" disabled>Select</option>
+          <option
+            *ngFor = "let manager of managerData"
+            [value] = "manager.user_id">
+            {{manager.fname }} {{manager.lname}} ({{ manager.user_id }})
+          </option>
+        </select>
+      </td>
+      <td>
+        <input type = "submit" class = "btn btn-outline-info" value = "Assign" (click) = "onAssign(project.project_id, project.current_department)"></td>
+    </tr>
+  </tbody>
+</table>

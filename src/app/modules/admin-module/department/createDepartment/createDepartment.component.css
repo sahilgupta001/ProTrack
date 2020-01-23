@@ -1,0 +1,19 @@
+p {
+  text-align: center;
+}
+
+.form-group {
+  padding-bottom: 20px;
+}
+
+.col {
+  padding-right: 80px;
+}
+
+.control-label.required:after {
+  color: #d00;
+  content: "*";
+  position: absolute;
+  margin-left: 5px;
+  top:0px;
+}

@@ -1,0 +1,48 @@
+<div class = "col-md-6 container">
+  <form class = "form-inline" (submit) = "onSearch(deptForm)" #deptForm="ngForm">
+    <label for="departmentId" class = "labelInput mb-2 mr-sm-2">Department Id: </label>
+    <select class="custom-select mb-2 mr-sm-2" name = "department" ngModel #departmentInput= "ngModel" ngModel>
+      <option value = "" disabled>Select</option>
+      <option *ngFor = "let department of departments" [ngValue] = "department">{{ department }}</option>
+    </select>
+    <button type = "submit" class = "btn btn-secondary mb-2">Search</button>
+  </form>
+</div>
+
+<br>
+<table class="table table-bordered text-center table-hover">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">SNo.</th>
+      <th scope="col">Employee_Id</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">Email Id</th>
+      <th scope="col">Phone No.</th>
+      <th scope="col">Assigned Role</th>
+      <th scope="col">Available Roles</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor = "let data of userData; let i = index">
+      <th scope="row"> {{ i + 1 }}</th>
+      <td>{{ data.user_id }}</td>
+      <td>{{ data.fname }}</td>
+      <td>{{ data.lname }}</td>
+      <td>{{ data.email_id }}</td>
+      <td>{{ data.phone_no }}</td>
+      <td>{{ data.role_id }}</td>
+      <td>
+        <div class = "col-md-9">
+          <select class="custom-select" #role (change) = "selectRole(role.value, data.user_id)">
+            <option value = "" disabled>Select</option>
+            <option *ngFor = "let role of roles" [value] = "role.rol_name">{{ role.rol_name }}</option>
+          </select>
+        </div>
+      </td>
+      <td>
+        <input type = "submit" class = "btn btn-outline-info" value = "Assign" (click) = "onAssign()"></td>
+    </tr>
+  </tbody>
+</table>

@@ -1,0 +1,66 @@
+<div class = "container col-md-9">
+  <p  class = "lead"><strong>CREATE PROJECT FORM</strong></p>
+  <form [formGroup]="initializeProjectForm" (ngSubmit) = "onInitializeProject()">
+    <div class = "form-row">
+      <div class = "col">
+        <label for="projectIdInput" class = " control-label required labelInput">Project Id</label>
+          <input
+          type="text"
+          class = "form-control"
+          placeholder = "Project Id"
+          formControlName = "project_id"
+          >
+          <app-error-display
+            [displayError]="isFieldValid('project_id')"
+            errorMsg="Please enter a valid Project Id"
+            >
+          </app-error-display>
+      </div>
+      <div class = "col">
+        <label for="projectNameInput" class = " control-label required labelInput">Project Name</label>
+        <input
+        type="text"
+        class = "form-control"
+        placeholder = "Project Name"
+        formControlName = "project_name"
+        >
+        <app-error-display
+          [displayError]="isFieldValid('project_name')"
+          errorMsg="Please enter a valid Project Name"
+          >
+        </app-error-display>
+      </div>
+    </div>
+    <div class = "form-row">
+      <div class = "col">
+        <label for="clientInput" class = " control-label required labelInput">Client</label>
+        <input
+        type="text"
+        class = "form-control"
+        placeholder = "Client Name"
+        formControlName = "client"
+        >
+        <app-error-display
+          [displayError]="isFieldValid('client')"
+          errorMsg="Please enter a valid Client"
+          >
+        </app-error-display>
+      </div>
+      <div class = "col">
+        <label for="initialDepartmentId" class = " control-label required labelInput">Department Id</label>
+        <select class="custom-select" placeholder = "Department Id" formControlName = "initial_department_id">
+          <option value = "" disabled>Select</option>
+          <option *ngFor = "let department of departments" [ngValue] = "department">{{ department }}</option>
+        </select>
+        <app-error-display
+            [displayError]="isFieldValid('initial_department_id')"
+            errorMsg="Please enter a valid department"
+            [emailFlag] = true>
+        </app-error-display>
+      </div>
+    </div>
+    <div class = "text-center">
+      <button type = "submit" class = "btn btn-outline-dark active col-md-3" [disabled] = "!initializeProjectForm.valid">Create Project</button>
+    </div>
+  </form>
+</div>
