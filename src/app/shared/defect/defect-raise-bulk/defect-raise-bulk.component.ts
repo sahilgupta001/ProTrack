@@ -45,7 +45,11 @@ export class DefectRaiseBulkComponent implements OnInit {
     this.defectService.bulkDefectUpload(this.projectId, this.defectForm.value.file)
       .subscribe(response => {
         console.log(response);
-      })
+      });
+  }
+
+  onTemplateDownload() {
+    this.defectService.onTemplateDownload();
   }
 
   isDocumentValid() {

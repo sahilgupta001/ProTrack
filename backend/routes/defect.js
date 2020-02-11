@@ -3,6 +3,7 @@ const router = express.Router();
 const connection = require('../db-config');
 const extractFile = require('../middleware/file');
 const fs = require('fs');
+const path = require('path');
 
 router.get('/getCategory', (req, res, next) => {
   connection.query('select * from defect_category', function(err, result) {
@@ -175,10 +176,9 @@ router.post('/bulkDefects', extractFile, (req, res, next) => {
         } else {
           fs.unlink(path, (err) => {
             if(err) {
-              console.log(err);
               res.status(418).json({
                 message: 'Defect file deletion failed'
-              })
+              });
             } else {
               res.status(200).json({
                 messsage: "The defects have been successfully raised"
@@ -191,5 +191,10 @@ router.post('/bulkDefects', extractFile, (req, res, next) => {
   });
 });
 
+
+router.get('/templateDownload', (req, res, next) => {
+  filepath = path.join(__dirname, '../templates/defect_upload_template.csv');
+  res.sendFile(filepath);
+})
 
 module.exports = router;

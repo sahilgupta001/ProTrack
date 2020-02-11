@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Defect } from '../models/defect-model';
-
+import { saveAs } from 'file-saver';
 @Injectable({
   providedIn: 'root'
 })
@@ -52,4 +52,14 @@ export class DefectService {
     return this.http.post('http://localhost:3000/api/defect/bulkDefects', defectData);
   }
 
+  onTemplateDownload() {
+    this.http.get('http://localhost:3000/api/defect/templateDownload', {
+      responseType: 'blob',
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    })
+    .subscribe(
+      data => saveAs(data, 'defect-upload-template'),
+      error => console.log(error)
+    );
+  }
 }
