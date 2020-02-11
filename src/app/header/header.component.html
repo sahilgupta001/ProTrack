@@ -12,3 +12,7 @@
 <div *ngIf = "userIsAuthenticated && adminFlag">
   <app-admin-header></app-admin-header>
 </div>
+
+<div *ngIf = "userIsAuthenticated && !adminFlag">
+  <app-department-header></app-department-header>
+</div>

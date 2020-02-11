@@ -71,6 +71,31 @@ router.get('/:deptId', (req, res, next) => {
   })
 });
 
+router.get('/getUsers/:deptId', function(req, res, next) {
+  var sql = "select user_id, fname, lname from user where department_id = ?";
+  connection.query(sql, [req.params.deptId], function(err, result) {
+    if(err) {
+      console.log(err.sqlMessage);
+      res.status(500).json({
+        message: 'The data was not fetched'
+      });
+    } else {
+        if(result.length > 0) {
+          res.status(200).json({
+            message: 'The users for the given department have been fetched successfully',
+            data: result
+          });
+        } else {
+          res.status(200).json({
+            message: 'There are no managers for this department',
+            data: []
+          });
+        }
+      }
+  });
+});
+
+
 router.post('/assignRole', (req, res, next) => {
   connection.query('select role_id from roles where rol_name = ? && department_id = ?', [req.body.role, req.body.department], function(err, results) {
     if(err) {
@@ -96,7 +121,13 @@ router.post('/assignRole', (req, res, next) => {
 })
 
 router.get('/getManagers/:deptId', function(req, res, next) {
-  connection.query('select user_id, fname, lname from user where department_id = ? and role_id = ?', [req.params.deptId,'PVG_MNG01_104'], function(err, result) {
+  var sql;
+  if(req.body.deptId === 'PVG_101') {
+    sql = "select user_id, fname, lname from user where department_id = ? and role_id = 'PVG_MNG01_104'";
+  } else {
+    sql = "select user_id, fname, lname from user where department_id = ? and role_id = 'PU_MNG_104'";
+  }
+  connection.query(sql, [req.params.deptId], function(err, result) {
     if(err) {
       console.log(err.sqlMessage);
       res.status(500).json({
@@ -114,7 +145,7 @@ router.get('/getManagers/:deptId', function(req, res, next) {
             message: 'There are no managers for this department',
             data: []
           });
-        }      
+        }
       }
   });
 });

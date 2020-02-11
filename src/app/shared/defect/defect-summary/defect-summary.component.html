@@ -1,0 +1,48 @@
+<div class = "table-responsive">
+<table class="table table-bordered text-center">
+  <thead class="thead-light">
+  <tr>
+      <th scope="col">Iteration</th>
+      <th scope="col">Id</th>
+      <th scope="col">Name</th>
+      <th scope="col">Category</th>
+      <th scope="col">Type</th>
+      <th scope="col">Status</th>
+      <th scope="col">Description</th>
+      <th scope="col">Logs</th>
+      <th scope="col">Assigned Department</th>
+      <th scope="col">Assigned User</th>
+      <th scope="col">Date</th>
+      <th scope="col">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr [ngClass]="{'table-secondary' : defect.assign_status != 0}" *ngFor = "let defect of defects">
+      <td scope="col">{{defect.iteration_no}}</td>
+      <td scope="col">{{defect.defect_id}}</td>
+      <td scope="col">{{defect.defect_name}}</td>
+      <td scope="col">{{defect.defect_category}}</td>
+      <td scope="col">{{defect.defect_type}}</td>
+      <td scope="col">{{defect.status}}</td>
+      <td scope="col">{{defect.description}}</td>
+      <td scope="col">{{defect.log_data}}</td>
+      <td scope="col">
+        <select class="custom-select" (change) = "setUserList($event.target.value)">
+          <option value = "{{defect.assigned_department}}" disabled>{{defect.assigned_department}}</option>
+          <option *ngFor = "let department of departments" [ngValue] = "department">{{ department }}</option>
+        </select>
+      </td>
+      <td scope="col">
+        <select class="custom-select" (change) = "setUser($event.target.value)">
+          <option value = "" disabled>{{defect.assigned_user}}</option>
+          <option *ngFor = "let user of users" value = "{{user.user_id}}">{{ user.fname }} {{user.lname}} ({{user.user_id}})</option>
+        </select>
+      </td>
+      <td scope="col">{{defect.date | date: "dd/MM/yyyy" }}</td>
+      <td scope="col">
+        <input type = "submit" [disabled] = "assignStatus(defect.assign_status)" class = "btn btn-outline-info" value = "Assign" (click) = "onAssign(defect.defect_id)">
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

@@ -1,0 +1,22 @@
+<div class = "container col-md-9">
+  <form  [formGroup] = "defectForm" (submit) = "onSaveDocument()" class="text-center border form-inline border-light p-5">
+    <p class="h5 mb-4">Upload File:</p>
+    <div class="form-group mx-sm-3 mb-2">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input form-control" accept = ".csv" (change) = "onDocumentPicked($event)">
+        <label class=" form-control custom-file-label" for="defectFile">Choose File</label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Upload</button>
+    <div>
+      <app-error-display
+        [displayError] = "isDocumentValid()"
+        errorMsg = "The selcted format is not valid"
+      >
+      </app-error-display>
+    </div>
+  </form>
+</div>
+
+
+

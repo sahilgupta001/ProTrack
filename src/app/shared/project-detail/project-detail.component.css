@@ -1,0 +1,52 @@
+.jumbotron {
+  margin-left: 80px;
+  margin-right: 80px;
+}
+
+.navbar {
+  width: 200px;
+  margin-left: 0px;
+  margin-top: 0px;
+}
+.row {
+  padding-left: 12%;
+  padding-top: 5%;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  height: 100%;
+  overflow: fixed;
+}
+
+li a {
+  display: block;
+  color: white;
+  padding: 16px 16px;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* Change the link color on hover */
+li a:hover {
+  background-color: #555;
+  color: white;
+}
+.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+
+.align {
+  margin-top: 0px !important;
+  padding-top: 0px !important;
+}
+
+
+

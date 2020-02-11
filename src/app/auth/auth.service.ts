@@ -43,6 +43,7 @@ export class AuthService {
   login(email: string, password: string) {
     // tslint:disable-next-line:object-literal-shorthand
     const authData: AuthData = { email: email, password: password, phone_no: null, lname: null, fname: null, department_id: null };
+    // tslint:disable-next-line: max-line-length
     this.http.post<{ token: string, message: string, user_id: number, role_id: string, expiresIn: number }>('http://localhost:3000/api/user/login', authData)
       .subscribe(response => {
         const token = response.token;
@@ -53,9 +54,10 @@ export class AuthService {
           this.isAuthenticated = true;
           this.userId = response.user_id;
           this.roleId = response.role_id;
-          if( this.roleId === 'admin_01') {
+          console.log(response.role_id);
+          if ( this.roleId === 'admin_01') {
             this.roleStatusListener.next(true);
-            this.isAdmin = true;  
+            this.isAdmin = true;
           }
           this.authStatusListener.next(true);
           const now = new Date();
@@ -63,7 +65,11 @@ export class AuthService {
           this.saveAuthData(token, expirationDate, this.userId, this.roleId);
         }
         console.log(response.message);
-        this.router.navigate(['/home']);
+        if ( this.roleId === 'admin_01') {
+          this.router.navigate(['/home']);
+        } else {
+          this.router.navigate(['/userHome']);
+        }
       }, error => {
         this.authStatusListener.next(false);
         this.roleStatusListener.next(false);
@@ -109,11 +115,12 @@ export class AuthService {
       this.token = authInformation.token;
       this.isAuthenticated = true;
       this.setAuthTimer(expiresIn / 1000);
-      if (authInformation.roleId === 'admin_01')  
-      this.isAdmin = true;
+      if (authInformation.roleId === 'admin_01') {
+        this.isAdmin = true;
       }
-      this.roleStatusListener.next(true);
-      this.authStatusListener.next(true);
+    }
+    this.roleStatusListener.next(true);
+    this.authStatusListener.next(true);
   }
 
   private getAuthData() {
@@ -127,6 +134,7 @@ export class AuthService {
       // tslint:disable-next-line:object-literal-shorthand
       token: token,
       expirationDate: new Date(expirationDate),
+      // tslint:disable-next-line: object-literal-shorthand
       roleId: roleId
     };
   }

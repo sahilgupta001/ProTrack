@@ -1,0 +1,282 @@
+<div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseSrsInput" aria-expanded="true" aria-controls="collapseSrsInput">
+          SRS Upload
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseSrsInput" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+        <form class = "form" [formGroup] = "uploadForm" (submit) = "onSaveDocument('srs')">
+          <div class = "row">
+            <div class = "col">
+              <h6>Choose File</h6>
+            </div>
+            <div class = "col">
+              <h6>Description</h6>
+            </div>
+          </div>
+          <div class = "row">
+            <div class = "col">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input form-control" (change) = "onDocumentPicked($event)">
+                <label class=" form-control custom-file-label" for="srsFile">Choose File</label>
+              </div>
+            </div>
+            <div class = "col">
+              <textarea class = "form-control"  formControlName = "description"></textarea>
+            </div>
+            <div class = "col">
+              <button class = "btn btn-success" type = "submit">Upload</button>
+            </div>
+          </div>
+          <div>
+            <app-error-display
+              [displayError] = "isDocumentValid()"
+              errorMsg = "The selcted format is not valid"
+            >
+            </app-error-display>
+          </div>
+          <div>
+            <app-error-display
+              [displayError] = "isDocumentSuccess()"
+              errorMsg = "The document has been uploaded successfully"
+            >
+            </app-error-display>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Installation Guide upload -->
+
+  <div class="card">
+    <div class="card-header" id="headingTwo">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseInstallationGuideInput" aria-expanded="true" aria-controls="collapseInstallationGuideInput">
+          Installation Guide Upload
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseInstallationGuideInput" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionExample">
+      <div class="card-body">
+        <form class = "form" [formGroup] = "uploadForm" (submit) = "onSaveDocument('installation_guide')">
+          <div class = "row">
+            <div class = "col">
+              <h6>Choose File</h6>
+            </div>
+            <div class = "col">
+              <h6>Description</h6>
+            </div>
+          </div>
+          <div class = "row">
+            <div class = "col">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input form-control" (change) = "onDocumentPicked($event)">
+                <label class=" form-control custom-file-label" for="installationGuideFile">Choose File</label>
+              </div>
+            </div>
+            <div class = "col">
+              <textarea class = "form-control"  formControlName = "description"></textarea>
+            </div>
+            <div class = "col">
+              <button class = "btn btn-success" type = "submit">Upload</button>
+            </div>
+          </div>
+          <div>
+            <app-error-display
+              [displayError] = "isDocumentValid()"
+              errorMsg = "The selcted format is not valid"
+            >
+            </app-error-display>
+          </div>
+          <div>
+            <app-error-display
+              [displayError] = "isDocumentSuccess()"
+              errorMsg = "The document has been uploaded successfully"
+            >
+            </app-error-display>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- test_plan upload -->
+
+
+  <div class="card">
+    <div class="card-header" id="headingThree">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTestPlanInput" aria-expanded="true" aria-controls="collapseTestPlanInput">
+          Test Plan Upload
+        </button>
+      </h2>
+    </div>
+
+    <div id="collapseTestPlanInput" class="collapse show" aria-labelledby="headingThree" data-parent="#accordionExample">
+      <div class="card-body">
+        <form class = "form" [formGroup] = "uploadForm" (submit) = "onSaveDocument('test_plan')">
+          <div class = "row">
+            <div class = "col">
+              <h6>Choose File</h6>
+            </div>
+            <div class = "col">
+              <h6>Description</h6>
+            </div>
+          </div>
+          <div class = "row">
+            <div class = "col">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input form-control" (change) = "onDocumentPicked($event)">
+                <label class=" form-control custom-file-label" for="testPlanFile">Choose File</label>
+              </div>
+            </div>
+            <div class = "col">
+              <textarea class = "form-control"  formControlName = "description"></textarea>
+            </div>
+            <div class = "col">
+              <button class = "btn btn-success" type = "submit">Upload</button>
+            </div>
+          </div>
+          <div>
+            <app-error-display
+              [displayError] = "isDocumentValid()"
+              errorMsg = "The selcted format is not valid"
+            >
+            </app-error-display>
+          </div>
+          <div>
+            <app-error-display
+              [displayError] = "isDocumentSuccess()"
+              errorMsg = "The document has been uploaded successfully"
+            >
+            </app-error-display>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<!-- Document4 upload -->
+
+
+<div class="card">
+  <div class="card-header" id="headingFour">
+    <h2 class="mb-0">
+      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseDocument4Input" aria-expanded="true" aria-controls="collapseDocument4Input">
+        Additional Document Upload 1
+      </button>
+    </h2>
+  </div>
+
+  <div id="collapseDocument4Input" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+    <div class="card-body">
+      <form class = "form" [formGroup] = "uploadForm" (submit) = "onSaveDocument('document4')">
+        <div class = "row">
+          <div class = "col">
+            <h6>Choose File</h6>
+          </div>
+          <div class = "col">
+            <h6>Description</h6>
+          </div>
+        </div>
+        <div class = "row">
+          <div class = "col">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input form-control" (change) = "onDocumentPicked($event)">
+              <label class=" form-control custom-file-label" for="document4File">Choose File</label>
+            </div>
+          </div>
+          <div class = "col">
+            <textarea class = "form-control"  formControlName = "description"></textarea>
+          </div>
+          <div class = "col">
+            <button class = "btn btn-success" type = "submit">Upload</button>
+          </div>
+        </div>
+        <div>
+          <app-error-display
+            [displayError] = "isDocumentValid()"
+            errorMsg = "The selcted format is not valid"
+          >
+          </app-error-display>
+        </div>
+        <div>
+          <app-error-display
+            [displayError] = "isDocumentSuccess()"
+            errorMsg = "The document has been uploaded successfully"
+          >
+          </app-error-display>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Document5 upload -->
+
+
+<div class="card">
+  <div class="card-header" id="headingFive">
+    <h2 class="mb-0">
+      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseDocument5Input" aria-expanded="true" aria-controls="collapseDocument5Input">
+        Additional Document Upload 2
+      </button>
+    </h2>
+  </div>
+
+  <div id="collapseDocument5Input" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
+    <div class="card-body">
+      <form class = "form" [formGroup] = "uploadForm" (submit) = "onSaveDocument('document5')">
+        <div class = "row">
+          <div class = "col">
+            <h6>Choose File</h6>
+          </div>
+          <div class = "col">
+            <h6>Description</h6>
+          </div>
+        </div>
+        <div class = "row">
+          <div class = "col">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input form-control" (change) = "onDocumentPicked($event)">
+              <label class=" form-control custom-file-label" for="document5File">Choose File</label>
+            </div>
+          </div>
+          <div class = "col">
+            <textarea class = "form-control"  formControlName = "description"></textarea>
+          </div>
+          <div class = "col">
+            <button class = "btn btn-success" type = "submit">Upload</button>
+          </div>
+        </div>
+        <div>
+          <app-error-display
+            [displayError] = "isDocumentValid()"
+            errorMsg = "The selcted format is not valid"
+          >
+          </app-error-display>
+        </div>
+        <div>
+          <app-error-display
+            [displayError] = "isDocumentSuccess()"
+            errorMsg = "The document has been uploaded successfully"
+          >
+          </app-error-display>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+</div>

@@ -1,0 +1,66 @@
+<div class = "container border border-secondary col-md-9">
+  <p class = "lead text-center"><strong>Defect Form</strong></p>
+  <form [formGroup] = "defectForm" (ngSubmit) = "onDefectRaise()">
+    <div class = "form-row">
+      <div class = "col">
+        <label for="defectId" class = "control-label required labelInput">Defect Name: </label>
+        <input type="text" class = "form-control" formControlName = "defect_name">
+      </div>
+      <div class = "col">
+        <label for="category" class = "control-label required labelInput">Category: </label>
+        <select class="custom-select" placeholder = "Category" formControlName = "category">
+          <option value = "" disabled>Select</option>
+          <option *ngFor = "let defectCategory of defectCategory" [ngValue] = "defectCategory.category_name">{{ defectCategory.category_name }}</option>
+        </select>
+      </div>
+    </div>
+    <div class = "form-row">
+      <div class = "col">
+        <label for="description" class = "control-label required labelInput">Description: </label>
+        <textarea class = "form-control"  formControlName = "description"></textarea>
+      </div>
+      <div class = "col">
+        <label for="log_data" class = "control-label required labelInput">Logs: </label>
+        <textarea class = "form-control"  formControlName = "log_data"></textarea>
+      </div>
+    </div>
+    <div class = "form-row">
+      <div class = "col">
+        <label for="defect_type" class = "control-label required labelInput">Defect Type: </label>
+        <select class="custom-select" placeholder = "Defect Type" formControlName = "defect_type">
+          <option value = "" disabled>Select</option>
+          <option *ngFor = "let defectType of defectTypes" [ngValue] = "defectType.type_name">{{ defectType.type_name }}</option>
+        </select>
+      </div>
+      <div class = "col">
+        <label for="assign_department" class = "control-label labelInput">Assign Department: </label>
+        <select class="custom-select" (change) = "setUserList()" formControlName = "assign_department">
+          <option value = "" disabled>Select</option>
+          <option *ngFor = "let department of departments" [ngValue] = "department">{{ department }}</option>
+        </select>
+      </div>
+    </div>
+    <div class = "form-row">
+      <div class = "col">
+        <label for="assign_to" class = "control-label labelInput">Assign To: </label>
+        <select class="custom-select" placeholder = "Assign User" formControlName = "assign_to">
+          <option value = "" disabled>Select</option>
+          <option *ngFor = "let user of users" [ngValue] = "user.user_id">{{ user.fname }} {{user.lname}} ({{user.user_id}})</option>
+        </select>
+      </div>
+      <div class = "col">
+        <label for="status" class = "control-label required labelInput">Status </label>
+        <select class="custom-select" placeholder = "status" formControlName = "status">
+          <option value = "" disabled>Select</option>
+          <option *ngFor = "let status of defectStatus" [ngValue] = "status.status">{{status.status}}</option>
+        </select>
+      </div>
+    </div>
+    <div class = "form-row text-center">
+      <div class = "col">
+        <button type = "submit" class = "btn btn-dark active col-md-3" [disabled] = "!defectForm.valid">Raise Defect</button>
+      </div>
+    </div>
+  </form>
+</div>
+<hr>

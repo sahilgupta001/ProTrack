@@ -9,17 +9,22 @@ import { AssignRolesComponent } from './modules/admin-module/department/assignRo
 import { InitializeProjectComponent } from './modules/admin-module/project/initialize-project/initialize-project.component';
 import { AssignProjectComponent } from './modules/admin-module/project/assign-project/assign-project.component';
 import { ProjectListComponent } from './modules/admin-module/project/project-list/project-list.component';
+import { HomeProjectListComponent } from './shared/home-project-list/home-project-list.component';
+import { ProjectDetailComponent } from './shared/project-detail/project-detail.component';
+import { DocumentationUploadComponent } from './shared/documentation/documentation-upload/documentation-upload.component';
 
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'home', component: ProjectListComponent },
+  { path: 'home', component: ProjectListComponent, canActivate: [AuthGuard] },
+  { path: 'userHome', component: HomeProjectListComponent, canActivate: [AuthGuard] },
   { path: 'auth/signup', component: SignupComponent, canActivate: [AuthGuard] },
   { path: 'dept/createDept', component: CreateDepartmentComponent, canActivate: [AuthGuard] },
   { path: 'dept/createRole', component: RolesComponent, canActivate: [AuthGuard] },
   { path: 'dept/assignRole', component: AssignRolesComponent, canActivate: [AuthGuard] },
   { path: 'project/initiateProject', component: InitializeProjectComponent, canActivate: [AuthGuard] },
-  { path: 'project/assignProject', component: AssignProjectComponent, canActivate: [AuthGuard] }
+  { path: 'project/assignProject', component: AssignProjectComponent, canActivate: [AuthGuard] },
+  { path: 'projectDetail/:projectId', component: ProjectDetailComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

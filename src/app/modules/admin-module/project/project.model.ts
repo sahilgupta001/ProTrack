@@ -6,4 +6,5 @@ export interface Project {
   start_date: Date;
   status: string;
   current_department: string;
+  currently_assigned_user: string;
 }

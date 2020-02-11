@@ -6,6 +6,8 @@ const saltRounds  = 10;
 const jwt         = require('jsonwebtoken');
 const checkAuth   = require('../middleware/check-auth');
 var departments = [];
+
+
 router.post('/login', (req, res, next) => {
   let email = req.body.email;
   let fetchedUser;
@@ -52,7 +54,7 @@ function passMatch(toValidatePass, dbPass, callback) {
 }
 
 router.get('/getDepartments', (req, res, next) => {
-  connection.query('select * from department', function(err, results) {
+  connection.query("select * from department where department_id not in('admin')", function(err, results) {
     if(err) {
       res.status(500).json({
         message: 'Unable to load the data from the backend'

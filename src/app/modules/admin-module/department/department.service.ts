@@ -34,6 +34,10 @@ export class DepartmentService {
     return this.http.get<{message: string, data: any}>('http://localhost:3000/api/dept/getManagers/' + departmentId);
   }
 
+  getUsers(departmentId: string) {
+    return this.http.get<{message: string, data: any}>('http://localhost:3000/api/dept/getUsers/' + departmentId);
+  }
+
   getUserData(departmentId: string) {
     this.http.get<{ message: string, userData: any, rolesData: any}>('http://localhost:3000/api/dept/' + departmentId)
       .subscribe(fetchedData => {
@@ -45,6 +49,7 @@ export class DepartmentService {
         });
       });
   }
+
 
   assignRole(selectedRole: string, userId: string, department: string) {
     const data = {

@@ -59,7 +59,8 @@ export class InitializeProjectComponent implements OnInit {
       initial_department_id: this.initializeProjectForm.value.initial_department_id,
       start_date: null,
       status: 'Pending',
-      current_department: null
+      current_department: null,
+      currently_assigned_user: null
     };
     this.projectService.initializeProject(project);
   }

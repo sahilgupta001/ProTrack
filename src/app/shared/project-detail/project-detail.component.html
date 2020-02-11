@@ -1,0 +1,156 @@
+<div class = "align">
+  <div class = "float-left">
+    <ul class = "navbar-dark bg-dark">
+      <li class = "nav-item"><a class = "nav-link active" (click) = "displayDetails()">Project Details</a></li>
+      <li><a class = "nav-link" (click) = "displayIterations()">Iterations</a></li>
+      <li><a class = "nav-link" (click) = "documentUpload()">Documentation</a></li>
+      <li>
+        <a href="#" data-toggle="collapse" data-target="#submenu-1">Defects <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+        <ul id="submenu-1" class="navbar-dark bg-dark collapse">
+            <li><a class = "nav-link" (click) = "defectSummary()"><i class="fa fa-angle-right"></i> Defect Summary</a></li>
+            <li><a class = "nav-link" (click) = "defectRaise()"><i class="fa fa-angle-right"></i> Raise Defects</a></li>
+            <li><a class = "nav-link" (click) = "defectRaiseBulk()"><i class="fa fa-angle-right"></i> Raise Defects (Bulk)</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<div class = "col-md-9 float-right" *ngIf = "defectBulkRaiseFlag">
+    <app-defect-raise-bulk
+    [projectId] = projectId
+    >
+    </app-defect-raise-bulk>
+</div>
+
+<div class = "col-md-9 float-right" *ngIf = "defectRaiseFlag">
+    <app-defect-raise
+    [projectId] = projectId
+    >
+    </app-defect-raise>
+</div>
+
+<div class = "col-md-9 float-right" *ngIf = "defectSummaryFlag">
+  <app-defect-summary
+  [projectId] = projectId
+  >
+  </app-defect-summary>
+</div>
+
+
+<div class = "col-md-9 float-right" *ngIf = "documentUploadFlag">
+    <app-document-upload
+    [projectId] = projectId
+    >
+    </app-document-upload>
+</div>
+
+<div class = "col-md-9 float-right">
+  <div class = "jumbotron border border-secondary" *ngIf = "projectDetailFlag">
+    <div class = "container">
+      <h3><p class = "text-center">Project Details</p></h3>
+      <div *ngFor = "let project of project">
+        <div class = "row">
+          <div class = "col col-md-6">
+            <p class = "lead">
+              <strong>Project Id: </strong>
+              {{project.project_id}}
+            </p>
+          </div>
+          <div class = "col col-md-6">
+            <p class = "lead">
+              <strong>Project Name: </strong>
+              {{project.project_name}}
+            </p>
+          </div>
+        </div>
+        <div class = "row">
+          <div class = "col col-md-6">
+            <p class = "lead">
+              <strong>Client: </strong>
+              {{project.client}}
+            </p>
+          </div>
+          <div class = "col col-md-6">
+            <p class = "lead">
+              <strong>Initial Department: </strong>
+              {{project.initial_department_id}}
+            </p>
+          </div>
+        </div>
+        <div class = "row">
+          <div class = "col col-md-6">
+            <p class = "lead">
+              <strong>Current Department: </strong>
+              {{project.current_department}}
+            </p>
+          </div>
+          <div class = "col col-md-6">
+            <p class = "lead">
+              <strong>Current User: </strong>
+              {{project.currently_assigned_user}}
+            </p>
+          </div>
+        </div>
+        <div class = "row">
+          <div class = "col col-md-6">
+            <p class = "lead">
+              <strong>Start Date: </strong>
+              {{project.start_date | date: "dd/MM/yyyy"}}
+            </p>
+          </div>
+          <div class = "col col-md-6">
+            <p class = "lead">
+              <strong>Current Status: </strong>
+              {{ project.status }}
+            </p>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+  <div class="accordion" id="accordionExample" *ngIf = "iterationFlag">
+    <div class="card" *ngFor = "let iteration of iterationData; let i = index">
+      <div class="card-header" attr.id="heading{{iteration.iteration_no}}">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" attr.data-target = "#iteration{{iteration.iteration_no}}" aria-expanded="true" attr.aria-controls = "iteration{{iteration.iteration_no}}">
+            Iteration No. {{ iteration.iteration_no }}
+          </button>
+        </h5>
+      </div>
+
+      <div attr.id = "iteration{{iteration.iteration_no}}" class="collapse hidden" attr.aria-labelledby="heading{{iteration.iteration_no}}" data-parent="#accordionExample">
+        <div class="card-body">
+          <table class="table table-bordered text-center">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Previous Department</th>
+                <th scope="col">Current Department</th>
+                <th scope="col">Assigned On</th>
+                <th scope="col">Assigned To</th>
+                <th scope="col">Assigned By</th>
+                <th scope="col">Current Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ iteration.previous_department }}</td>
+                <td>{{ iteration.current_department }}</td>
+                <td>{{ iteration.assigned_date | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ iteration.assigned_user }}</td>
+                <td>{{ iteration.assigned_by }}</td>
+                <td>{{ iteration.status }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+</div>
+
+
+
+

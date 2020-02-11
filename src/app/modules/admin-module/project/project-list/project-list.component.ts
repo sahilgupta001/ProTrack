@@ -8,9 +8,11 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./project-list.component.css']
 })
 
-export class ProjectListComponent implements OnInit{
+export class ProjectListComponent implements OnInit {
     projects: Project;
-    private projectsSub = new Subscription;
+    private projectsSub = new Subscription();
+    roleId: string;
+    userId: string;
     constructor(private projectService: ProjectService) {}
 
     ngOnInit() {

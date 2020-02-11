@@ -16,12 +16,20 @@ import { InitializeProjectComponent } from './modules/admin-module/project/initi
 import { AssignProjectComponent } from './modules/admin-module/project/assign-project/assign-project.component';
 import { ProjectListComponent } from './modules/admin-module/project/project-list/project-list.component';
 import { AdminHeaderComponent } from './modules/admin-module/admin-header/admin-header.component';
+import { DepartmentHeaderComponent } from './shared/department-header/department-header.component';
+import { HomeProjectListComponent } from './shared/home-project-list/home-project-list.component';
+import { ProjectDetailComponent } from './shared/project-detail/project-detail.component';
+import { DocumentationUploadComponent } from './shared/documentation/documentation-upload/documentation-upload.component';
+import { DefectRaiseComponent } from './shared/defect/defect-raise/defect-raise.component';
+import { DefectSummaryComponent } from './shared/defect/defect-summary/defect-summary.component';
+import { DefectRaiseBulkComponent } from './shared/defect/defect-raise-bulk/defect-raise-bulk.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     AdminHeaderComponent,
+    DepartmentHeaderComponent,
     LoginComponent,
     SignupComponent,
     ErrorDisplayComponent,
@@ -30,7 +38,13 @@ import { AdminHeaderComponent } from './modules/admin-module/admin-header/admin-
     AssignRolesComponent,
     InitializeProjectComponent,
     AssignProjectComponent,
-    ProjectListComponent
+    ProjectListComponent,
+    HomeProjectListComponent,
+    ProjectDetailComponent,
+    DocumentationUploadComponent,
+    DefectRaiseComponent,
+    DefectSummaryComponent,
+    DefectRaiseBulkComponent
   ],
   imports: [
     BrowserModule,

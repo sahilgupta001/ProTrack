@@ -18,7 +18,7 @@
         <tbody>
         <tr *ngFor = "let project of projects; let i = index">
             <th scope="row"> {{ i +1 }} </th>
-            <td><i class="fas fa-folder-plus"></i>{{ project.project_id }}</td>
+            <td><i class="fas fa-folder-plus"></i><a [routerLink] = "['/projectDetail', project.project_id]">{{ project.project_id }}</a></td>
             <td>{{ project.project_name }}</td>
             <td>{{ project.client }}</td>
             <td>{{ project.initial_department_id }}</td>
