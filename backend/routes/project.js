@@ -10,7 +10,6 @@ router.get('/', function(req, res, next) {
       });
     }
     else {
-      console.log(projects);
       res.status(200).json({
         message: 'Projects were fetched successfully',
         projects: projects,

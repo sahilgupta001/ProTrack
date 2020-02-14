@@ -30,7 +30,7 @@
               <textarea class = "form-control"  formControlName = "description"></textarea>
             </div>
             <div class = "col">
-              <button class = "btn btn-success" type = "submit">Upload</button>
+              <button [disabled] = "!uploadForm.valid" class = "btn btn-success" type = "submit">Upload</button>
             </div>
           </div>
           <div>
@@ -87,7 +87,7 @@
               <textarea class = "form-control"  formControlName = "description"></textarea>
             </div>
             <div class = "col">
-              <button class = "btn btn-success" type = "submit">Upload</button>
+              <button [disabled] = "!uploadForm.valid" class = "btn btn-success" type = "submit">Upload</button>
             </div>
           </div>
           <div>
@@ -143,7 +143,7 @@
               <textarea class = "form-control"  formControlName = "description"></textarea>
             </div>
             <div class = "col">
-              <button class = "btn btn-success" type = "submit">Upload</button>
+              <button [disabled] = "!uploadForm.valid" class = "btn btn-success" type = "submit">Upload</button>
             </div>
           </div>
           <div>
@@ -199,7 +199,7 @@
             <textarea class = "form-control"  formControlName = "description"></textarea>
           </div>
           <div class = "col">
-            <button class = "btn btn-success" type = "submit">Upload</button>
+            <button [disabled] = "!uploadForm.valid" class = "btn btn-success" type = "submit">Upload</button>
           </div>
         </div>
         <div>
@@ -256,7 +256,7 @@
             <textarea class = "form-control"  formControlName = "description"></textarea>
           </div>
           <div class = "col">
-            <button class = "btn btn-success" type = "submit">Upload</button>
+            <button [disabled] = "!uploadForm.valid" class = "btn btn-success" type = "submit">Upload</button>
           </div>
         </div>
         <div>

@@ -1,18 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DefectService } from '../../services/defect.service';
-import { Defect } from '../../models/defect-model';
-import { AuthService } from 'src/app/auth/auth.service';
+import { Defect } from 'src/app/shared/models/defect-model';
 import { Subscription } from 'rxjs';
-import { DepartmentService } from 'src/app/modules/admin-module/department/department.service';
+import { DepartmentService } from '../department/department.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { DefectService } from 'src/app/shared/services/defect.service';
 
 @Component({
-  templateUrl: './defect-summary.component.html',
-  selector: 'app-defect-summary',
-  styleUrls: ['./defect-summary.component.css']
+  selector: 'app-delete-defects',
+  templateUrl: './delete-defects.component.html'
 })
 
-export class DefectSummaryComponent implements OnInit {
-  @Input() projectId: string;
+export class DeleteDefectsComponent implements OnInit {
+  @Input() projectId;
   defects: Defect;
   users: any;
   departmentId: string;
@@ -22,7 +21,6 @@ export class DefectSummaryComponent implements OnInit {
   private defectSub: Subscription;
 
   constructor(public departmentService: DepartmentService, public authService: AuthService, public defectService: DefectService) {}
-
   ngOnInit() {
     this.setDefectData();
     this.setDepartmentList();
@@ -44,7 +42,6 @@ export class DefectSummaryComponent implements OnInit {
       });
   }
 
-
   setDepartmentList() {
     this.authService.getDepartments();
     this.departmentSub = this.authService.getDepartmentUpdateListener()
@@ -65,17 +62,12 @@ export class DefectSummaryComponent implements OnInit {
     this.userId = userId;
   }
 
-  onAssign(defectId: number) {
-    this.defectService.assignDefect(this.projectId, defectId, this.departmentId, this.userId)
-      .subscribe(response => {
-        console.log(response);
-      });
-    this.setDefectData();
-  }
-
-
-  onExportDefects() {
-    this.defectService.exportDefects(this.projectId);
-  }
+  onDelete(defectId: number) {
+      this.defectService.deleteDefect(this.projectId, defectId)
+        .subscribe(response => {
+          console.log(response);
+        });
+      this.setDefectData();
+    }
 
 }

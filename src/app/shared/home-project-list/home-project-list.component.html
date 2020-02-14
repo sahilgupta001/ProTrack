@@ -13,6 +13,10 @@
             <th scope="col">Current Department</th>
             <th scope="col">Start Date</th>
             <th scope="col">Current Status</th>
+            <th scope="col" *ngIf = "isManagerFlag">Change Status</th>
+            <th scope="col" *ngIf = "isManagerFlag">Assign Department</th>
+            <th scope="col" *ngIf = "isManagerFlag">Assign Manager</th>
+            <th scope="col" *ngIf = "isManagerFlag">Action</th>
         </tr>
         </thead>
         <tbody>
@@ -25,6 +29,34 @@
             <td>{{ project.current_department }}</td>
             <td>{{ project.start_date | date: 'dd/MM/yyyy' }}</td>
             <td>{{ project.status }}</td>
+            <td>
+              <select class="custom-select" #status (change) = "selectStatus(status.value)">
+                <option value = "" disabled>Select</option>
+                <option *ngFor = "let status of statuses" [value] = "status">{{ status }}</option>
+              </select>
+            </td>
+            <td>
+              <select class="custom-select" #assignedDepartment (change) = "selectDepartment(assignedDepartment.value)">
+                <option value = "" disabled>Select</option>
+                <option *ngFor = "let department of departments" [value] = "department">{{ department }}</option>
+              </select>
+            </td>
+            <td>
+              <select
+                class="custom-select text-uppercase"
+                #assignedManager
+                (change) = "selectManager(assignedManager.value)"
+              >
+                <option value = "" disabled>Select</option>
+                <option
+                  *ngFor = "let manager of managerData"
+                  [value] = "manager.user_id">
+                  {{manager.fname }} {{manager.lname}} ({{ manager.user_id }})
+                </option>
+              </select>
+            </td>
+            <td>
+              <input type = "submit" class = "btn btn-outline-info" value = "Assign" (click) = "onAssign(project.project_id, project.current_department)"></td>
         </tr>
         </tbody>
     </table>

@@ -1,0 +1,57 @@
+<div class = "table-responsive">
+  <table class="table table-bordered text-center">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">Document Type</th>
+        <th scope="col">Upload Date</th>
+        <th scope="col">Description</th>
+        <th scope="col">Upload By(ID)</th>
+        <th scope="col">Download</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf = "srs">
+        <td scope="col">{{srs.type}}</td>
+        <td scope="col">{{srs.upload_date | date: "dd/mm/yy"}}</td>
+        <td scope="col">{{srs.description}}</td>
+        <td scope="col">{{srs.upload_by}}</td>
+        <td scope="col">
+          <input type = "submit" class = "btn btn-outline-info" value = "Download" (click) = "onDownload('srs')">
+        </td>
+      </tr>
+      <tr *ngIf = "installationGuide">
+        <td scope="col">{{installationGuide.type}}</td>
+        <td scope="col">{{installationGuide.upload_date | date: "dd/mm/yy"}}</td>
+        <td scope="col">{{installationGuide.description}}</td>
+        <td scope="col">{{installationGuide.upload_by}}</td>
+        <td scope="col">
+          <input type = "submit" class = "btn btn-outline-info" value = "Download" (click) = "onDownload('installation_guide')">
+        </td>
+      </tr>
+      <tr *ngIf = "testPlan">
+        <td scope="col">{{testPlan.type}}</td>
+        <td scope="col">{{testPlan.upload_date | date: "dd/mm/yy"}}</td>
+        <td scope="col">{{testPlan.description}}</td>
+        <td scope="col">{{testPlan.upload_by}}</td>
+        <td scope="col">
+          <input type = "submit" class = "btn btn-outline-info" value = "Download" (click) = "onDownload('test_plan')">
+        </td>
+      </tr>
+      <tr *ngIf = "document4">
+        <td scope="col">{{document4.type}}</td>
+        <td scope="col">{{document4.upload_date | date: "dd/mm/yy"}}</td>
+        <td scope="col">{{document4.description}}</td>
+        <td scope="col">{{document4.upload_by}}</td>
+        <td scope="col">
+          <input type = "submit" class = "btn btn-outline-info" value = "Download" (click) = "onDownload('document4')">
+        </td>
+      </tr>
+      <tr *ngIf = "document5">
+        <td scope="col">{{document5.type}}</td>
+        <td scope="col">{{document5.upload_date | date: "dd/mm/yy"}}</td>
+        <td scope="col">{{document5.description}}</td>
+        <td scope="col">{{document5.upload_by}}</td>
+        <td scope="col">
+          <input type = "submit" class = "btn btn-outline-info" value = "Download" (click) = "onDownload('document5')">
+        </td>
+      </tr>

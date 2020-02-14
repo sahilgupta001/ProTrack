@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../modules/admin-module/project/project.service';
 import { Project } from '../../modules/admin-module/project/project.model';
 import { Subscription } from 'rxjs';
+import { DepartmentService } from 'src/app/modules/admin-module/department/department.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
     templateUrl: './home-project-list.component.html',
@@ -13,7 +15,21 @@ export class HomeProjectListComponent implements OnInit {
     private userProjectsSub = new Subscription();
     roleId: string;
     userId: string;
-    constructor(private projectService: ProjectService) {}
+    isManagerFlag = false;
+    managerData: any;
+    selectedDepartment: string;
+    selectedManager: string;
+    selectedStatus: string;
+    displayError = false;
+    departments: string[];
+    statuses = [
+      'Pending',
+      'Initiated',
+      'Final'
+    ];
+    private departmentSub: Subscription;
+
+    constructor(private projectService: ProjectService, private authService: AuthService, private departmentService: DepartmentService) {}
 
     ngOnInit() {
         this.userId = localStorage.getItem('userId');
@@ -22,5 +38,48 @@ export class HomeProjectListComponent implements OnInit {
             .subscribe((projectData: { projects: Project }) => {
                 this.projects = projectData.projects;
             });
+        this.checkUser();
+        this.setDepartmentList();
+    }
+
+    setDepartmentList() {
+      this.authService.getDepartments();
+      this.departmentSub = this.authService.getDepartmentUpdateListener()
+        .subscribe((departmentData: {departments: []}) => {
+          this.departments = departmentData.departments;
+        });
+    }
+
+    setManagerList() {
+      this.departmentService.getManagers(this.selectedDepartment)
+        .subscribe(response => {
+          this.managerData = [];
+          this.managerData = response.data;
+        });
+    }
+
+    selectDepartment(selectedDepartment: string) {
+      this.selectedDepartment = selectedDepartment;
+      this.setManagerList();
+    }
+
+    selectManager(selectedManager: string) {
+      this.selectedManager = selectedManager;
+    }
+
+    selectStatus(selectedStatus: string) {
+      this.selectedStatus =  selectedStatus;
+    }
+
+    checkUser() {
+      const roleId = localStorage.getItem('roleId');
+      // console.log(roleId);
+      if (roleId === 'PU_MNG_104' || roleId === 'PVG_MNG_104') {
+        this.isManagerFlag = true;
+      }
+    }
+
+    onAssign(projectId: string, currentDepartment: string) {
+      this.projectService.assignProject(projectId, this.selectedStatus, this.selectedDepartment, this.selectedManager, currentDepartment);
     }
 }

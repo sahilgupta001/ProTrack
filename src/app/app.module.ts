@@ -23,6 +23,9 @@ import { DocumentationUploadComponent } from './shared/documentation/documentati
 import { DefectRaiseComponent } from './shared/defect/defect-raise/defect-raise.component';
 import { DefectSummaryComponent } from './shared/defect/defect-summary/defect-summary.component';
 import { DefectRaiseBulkComponent } from './shared/defect/defect-raise-bulk/defect-raise-bulk.component';
+import { ViewDocumentsComponent } from './shared/documentation/view-documents/view-documents.component';
+import { CloseDefectsComponent } from './shared/defect/close-defects/close-defects.component';
+import { DeleteDefectsComponent } from './modules/admin-module/delete-defects/delete-defects.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +47,10 @@ import { DefectRaiseBulkComponent } from './shared/defect/defect-raise-bulk/defe
     DocumentationUploadComponent,
     DefectRaiseComponent,
     DefectSummaryComponent,
-    DefectRaiseBulkComponent
+    DefectRaiseBulkComponent,
+    CloseDefectsComponent,
+    ViewDocumentsComponent,
+    DeleteDefectsComponent
   ],
   imports: [
     BrowserModule,

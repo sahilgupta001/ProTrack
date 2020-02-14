@@ -3,19 +3,48 @@
     <ul class = "navbar-dark bg-dark">
       <li class = "nav-item"><a class = "nav-link active" (click) = "displayDetails()">Project Details</a></li>
       <li><a class = "nav-link" (click) = "displayIterations()">Iterations</a></li>
-      <li><a class = "nav-link" (click) = "documentUpload()">Documentation</a></li>
       <li>
-        <a href="#" data-toggle="collapse" data-target="#submenu-1">Defects <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+        <a href="#" data-toggle="collapse" data-target="#submenu-1">Documentation <i class="fa fa-fw fa-angle-down pull-right"></i></a>
         <ul id="submenu-1" class="navbar-dark bg-dark collapse">
+            <li><a class = "nav-link" (click) = "documentUpload()"><i class="fa fa-angle-right"></i> Upload Documents</a></li>
+            <li><a class = "nav-link" (click) = "viewDocuments()"><i class="fa fa-angle-right"></i> View/Download Documents</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#" data-toggle="collapse" data-target="#submenu-2">Defects <i class="fa fa-fw fa-angle-down pull-right"></i></a>
+        <ul id="submenu-2" class="navbar-dark bg-dark collapse">
             <li><a class = "nav-link" (click) = "defectSummary()"><i class="fa fa-angle-right"></i> Defect Summary</a></li>
+            <li><a class = "nav-link" *ngIf = "!adminFlag" (click) = "closeDefects()"><i class="fa fa-angle-right"></i> Close Defects</a></li>
             <li><a class = "nav-link" (click) = "defectRaise()"><i class="fa fa-angle-right"></i> Raise Defects</a></li>
             <li><a class = "nav-link" (click) = "defectRaiseBulk()"><i class="fa fa-angle-right"></i> Raise Defects (Bulk)</a></li>
+            <li><a class = "nav-link" *ngIf = "adminFlag" (click) = "deleteDefects()"><i class="fa fa-angle-right"></i> Delete Defects</a></li>
         </ul>
       </li>
     </ul>
   </div>
 </div>
 
+
+<div class = "col-md-9 float-right" *ngIf = "deleteDefectFlag">
+    <app-delete-defects
+    [projectId] = projectId
+    >
+    </app-delete-defects>
+</div>
+
+<div class = "col-md-9 float-right" *ngIf = "closeDefectsFlag">
+    <app-close-defects
+    [projectId] = projectId
+    >
+    </app-close-defects>
+</div>
+
+<div class = "col-md-9 float-right" *ngIf = "viewDocumentsFlag">
+    <app-document-view
+    [projectId] = projectId
+    >
+    </app-document-view>
+</div>
 
 <div class = "col-md-9 float-right" *ngIf = "defectBulkRaiseFlag">
     <app-defect-raise-bulk
@@ -134,6 +163,7 @@
                 <th scope="col">Assigned To</th>
                 <th scope="col">Assigned By</th>
                 <th scope="col">Current Status</th>
+                <th scope = "col">Action</th>
             </tr>
             </thead>
             <tbody>

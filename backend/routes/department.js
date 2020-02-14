@@ -122,11 +122,12 @@ router.post('/assignRole', (req, res, next) => {
 
 router.get('/getManagers/:deptId', function(req, res, next) {
   var sql;
-  if(req.body.deptId === 'PVG_101') {
-    sql = "select user_id, fname, lname from user where department_id = ? and role_id = 'PVG_MNG01_104'";
+  if(req.params.deptId == "PVG_101") {
+    sql = "select user_id, fname, lname from user where department_id = ? and role_id = 'PVG_MNG_104'";
   } else {
     sql = "select user_id, fname, lname from user where department_id = ? and role_id = 'PU_MNG_104'";
   }
+  console.log(sql);
   connection.query(sql, [req.params.deptId], function(err, result) {
     if(err) {
       console.log(err.sqlMessage);
@@ -134,7 +135,7 @@ router.get('/getManagers/:deptId', function(req, res, next) {
         message: 'The data was not fetched'
       });
     } else {
-        console.log(result);
+      // console.log(result);
         if(result.length > 0) {
           res.status(200).json({
             message: 'The managers for the given department have been fetched successfully',

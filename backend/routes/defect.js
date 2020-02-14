@@ -142,6 +142,24 @@ router.get('/getDefects/:projectId', (req, res, next) => {
   })
 })
 
+
+router.get('/getUserDefects/:projectId/:userId', (req, res, next) => {
+  const sql = 'select * from defects_' + req.params.projectId + ' where assigned_user = ' + req.params.userId;
+  connection.query(sql, function(err, result) {
+    if(err) {
+      console.log(err.sqlMessage);
+      res.status(500).json({
+        message: err.sqlMessage
+      })
+    } else {
+      res.status(200).json({
+        message: 'The data has been fetched successsfully',
+        defects: result
+      });
+    }
+  })
+})
+
 router.post('/assignDefect', (req, res, next) => {
   const sql = "update defects_" + req.body.projectId + " set assigned_department = '" + req.body.departmentId + "', assigned_user = " + req.body.userId + ", assign_status = 1" + " where defect_id = " + req.body.defectId;
   connection.query(sql, function(err, result) {
@@ -195,6 +213,69 @@ router.post('/bulkDefects', extractFile, (req, res, next) => {
 router.get('/templateDownload', (req, res, next) => {
   filepath = path.join(__dirname, '../templates/defect_upload_template.csv');
   res.sendFile(filepath);
+})
+
+
+
+router.get('/exportDefects/:projectId', (req, res, next) => {
+  const cols = "iteration_no, defect_id, defect_name, defect_category, defect_type, status, description, ifnull(log_data, 'NULL'), ifnull(assigned_department, 'Not Assigned'), ifnull(assigned_user, 'Not Assigned'), date";
+  const headers = "select 'Iteration No', 'Defect Id', 'Defect Name', 'Defect Category', 'Defect Type', 'Status', 'Description', 'Logs', 'Assigned Department', 'Assigned User', 'Date' union all";
+  const path1 = "E:/Development work/Compass/backend/defects/exports/export_defects.csv";
+  const sql = headers + " select " + cols + " into outfile 'E:/Development work/Compass/backend/defects/exports/export_defects.csv' FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' FROM defects_" + req.params.projectId;
+  connection.query(sql, function(err, result) {
+    if(err) {
+      console.log(err.sqlMessage);
+      res.status(500).json({
+        message:'Unable to export the data in the table'
+      });
+    } else {
+      filepath = path.join(__dirname, '../defects/exports/export_defects.csv');
+      res.sendFile(filepath, function(err) {
+        if(err) {
+          console.log("Inside the else");
+          console.log(err);
+        } else {
+            fs.unlink(path1, function(err){
+              if(err) {
+                console.log(err);
+              }
+            });
+        }
+      });
+    }
+  });
+});
+
+router.put('/closeDefect', (req, res, next) => {
+  const sql = "update defects_" + req.body.projectId + " set status = 'closed' where defect_id = " + req.body.defectId;
+  connection.query(sql, function(err, result) {
+    if(err) {
+      console.log(err.sqlMessage);
+      res.status(500).json({
+        message: 'Unable to close the defect'
+      });
+    } else {
+      res.status(200).json({
+        message: 'The defect has been successfully closed'
+      })
+    }
+  })
+})
+
+router.delete('/deleteDefect/:projectId/:defectId', (req, res, next) => {
+  const sql = "delete from defects_" + req.params.projectId +  " where defect_id = " + req.params.defectId;
+  connection.query(sql, function(err, result) {
+    if(err) {
+      console.log(err.sqlMessage);
+      res.status(500).json({
+        message: 'Unable to delete the defect'
+      });
+    } else {
+      res.status(200).json({
+        message: 'The defect has been successfully deleted'
+      })
+    }
+  })
 })
 
 module.exports = router;
