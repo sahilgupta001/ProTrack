@@ -3,6 +3,8 @@ import { AuthData } from './auth-data.model';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Subject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+const BACKEND_URL = environment.apiUrl + '/user/';
 @Injectable({
   providedIn: 'root'
 })
@@ -44,7 +46,7 @@ export class AuthService {
     // tslint:disable-next-line:object-literal-shorthand
     const authData: AuthData = { email: email, password: password, phone_no: null, lname: null, fname: null, department_id: null };
     // tslint:disable-next-line: max-line-length
-    this.http.post<{ token: string, message: string, user_id: number, role_id: string, expiresIn: number }>('http://localhost:3000/api/user/login', authData)
+    this.http.post<{ token: string, message: string, user_id: number, role_id: string, expiresIn: number }>(BACKEND_URL + 'login', authData)
       .subscribe(response => {
         const token = response.token;
         this.token = token;
@@ -77,7 +79,7 @@ export class AuthService {
   }
 
   getDepartments() {
-    this.http.get<{ message: string, department: any }>('http://localhost:3000/api/user/getDepartments')
+    this.http.get<{ message: string, department: any }>(BACKEND_URL + '/getDepartments')
       .subscribe(fetchedDepartments => {
         this.departments = fetchedDepartments.department;
         this.departmentsUpdated.next({
@@ -91,7 +93,7 @@ export class AuthService {
   }
 
   signup(createUser: AuthData) {
-    this.http.post('http://localhost:3000/api/user/signup', createUser)
+    this.http.post(BACKEND_URL + '/signup', createUser)
       .subscribe(createdUser => {
         console.log('The user is successfully created');
         console.log(createdUser);
@@ -170,7 +172,7 @@ export class AuthService {
     const emailFetched = {
       emailId: email
     };
-    return this.http.put<{ message: string, flag: boolean }>('http://localhost:3000/api/user/validateEmail', emailFetched);
+    return this.http.put<{ message: string, flag: boolean }>(BACKEND_URL + '/validateEmail', emailFetched);
   }
 
 }

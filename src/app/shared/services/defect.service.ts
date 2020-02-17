@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Defect } from '../models/defect-model';
 import { saveAs } from 'file-saver';
 import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
+const BACKEND_URL = environment.apiUrl + '/defect/';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,23 +16,23 @@ export class DefectService {
   constructor(private http: HttpClient) {}
 
   getDefectCategory() {
-    return this.http.get<{message: string, data: any}>('http://localhost:3000/api/defect/getCategory');
+    return this.http.get<{message: string, data: any}>(BACKEND_URL + 'getCategory');
   }
 
   getDefectType() {
-    return this.http.get<{message: string, data: any}>('http://localhost:3000/api/defect/getType');
+    return this.http.get<{message: string, data: any}>(BACKEND_URL + 'getType');
   }
 
   getDefectStatus() {
-    return this.http.get<{message: string, data: any}>('http://localhost:3000/api/defect/getStatus');
+    return this.http.get<{message: string, data: any}>(BACKEND_URL + 'getStatus');
   }
 
   raiseDefect(data: Defect, projectId: string) {
-    return this.http.post('http://localhost:3000/api/defect/raiseDefect/' + projectId, data);
+    return this.http.post(BACKEND_URL + 'raiseDefect/' + projectId, data);
   }
 
   getDefectData(projectId: string) {
-    this.http.get<{ message: string, defects: Defect }>('http://localhost:3000/api/defect/getDefects/' + projectId)
+    this.http.get<{ message: string, defects: Defect }>(BACKEND_URL + 'getDefects/' + projectId)
       .subscribe(response => {
         console.log(response.message);
         this.defects = response.defects;
@@ -46,7 +48,7 @@ export class DefectService {
 
   getUserDefects(projectId: string, userId: string) {
     // tslint:disable-next-line: max-line-length
-    return this.http.get<{ message: string, defects: Defect }>('http://localhost:3000/api/defect/getUserDefects/' + projectId + '/' + userId);
+    return this.http.get<{ message: string, defects: Defect }>(BACKEND_URL + 'getUserDefects/' + projectId + '/' + userId);
   }
 
   assignDefect(projectId: string, defectId: number, departmentId: string, userId: number) {
@@ -60,7 +62,7 @@ export class DefectService {
       // tslint:disable-next-line: object-literal-key-quotes
       'userId': userId
     };
-    return this.http.post('http://localhost:3000/api/defect/assignDefect', data);
+    return this.http.post(BACKEND_URL + 'assignDefect', data);
   }
 
   bulkDefectUpload(projectId: string, file: File) {
@@ -68,11 +70,11 @@ export class DefectService {
     defectData.append('type', 'defects');
     defectData.append('projectId', projectId);
     defectData.append('file', file);
-    return this.http.post('http://localhost:3000/api/defect/bulkDefects', defectData);
+    return this.http.post(BACKEND_URL + 'bulkDefects', defectData);
   }
 
   onTemplateDownload() {
-    this.http.get('http://localhost:3000/api/defect/templateDownload', {
+    this.http.get(BACKEND_URL + 'templateDownload', {
       responseType: 'blob',
       headers: new HttpHeaders().append('Content-Type', 'application/json')
     })
@@ -83,7 +85,7 @@ export class DefectService {
   }
 
   exportDefects(projectId: string) {
-    this.http.get('http://localhost:3000/api/defect/exportDefects/' + projectId, {
+    this.http.get(BACKEND_URL + 'exportDefects/' + projectId, {
       responseType: 'blob',
       headers: new HttpHeaders().append('Content-Type', 'application/json')
     })
@@ -100,10 +102,10 @@ export class DefectService {
       // tslint:disable-next-line: object-literal-key-quotes
       'defectId': defectId
     };
-    return this.http.put('http://localhost:3000/api/defect/closeDefect', data);
+    return this.http.put(BACKEND_URL + 'closeDefect', data);
   }
 
   deleteDefect(projectId: string, defectId: number) {
-    return this.http.delete('http://localhost:3000/api/defect/deleteDefect/' + projectId + '/' + defectId);
+    return this.http.delete(BACKEND_URL + 'deleteDefect/' + projectId + '/' + defectId);
   }
 }

@@ -1,5 +1,8 @@
 {
   "env": {
-    "JWT_KEY": "secret_this_should_be_longer"
+    "JWT_KEY": "secret_this_should_be_longer",
+    "DB_PASSWORD": "sahil",
+    "DB_USER": "sahil",
+    "DB_NAME": "compass"
   }
 }

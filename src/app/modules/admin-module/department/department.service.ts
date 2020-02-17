@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Roles } from './roles.model';
 import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
+const BACKEND_URL = environment.apiUrl;
 @Injectable({
   providedIn : 'root'
 })
@@ -19,29 +21,29 @@ export class DepartmentService {
   constructor(private http: HttpClient) {}
 
   createDepartment(department: Department) {
-    this.http.post('http://localhost:3000/api/dept/', department)
+    this.http.post(BACKEND_URL + '/dept/', department)
       .subscribe(response => {
         console.log(response);
       });
   }
 
   createRole(role: Roles) {
-    this.http.post('http://localhost:3000/api/dept/createRole', role)
+    this.http.post(BACKEND_URL + '/dept/createRole', role)
       .subscribe(response => {
         console.log(response);
       });
   }
 
   getManagers(departmentId: string) {
-    return this.http.get<{message: string, data: any}>('http://localhost:3000/api/dept/getManagers/' + departmentId);
+    return this.http.get<{message: string, data: any}>(BACKEND_URL + '/dept/getManagers/' + departmentId);
   }
 
   getUsers(departmentId: string) {
-    return this.http.get<{message: string, data: any}>('http://localhost:3000/api/dept/getUsers/' + departmentId);
+    return this.http.get<{message: string, data: any}>(BACKEND_URL + '/dept/getUsers/' + departmentId);
   }
 
   getUserData(departmentId: string) {
-    this.http.get<{ message: string, userData: any, rolesData: any}>('http://localhost:3000/api/dept/' + departmentId)
+    this.http.get<{ message: string, userData: any, rolesData: any}>(BACKEND_URL + '/dept/' + departmentId)
       .subscribe(fetchedData => {
         this.userData = fetchedData.userData;
         this.roles = fetchedData.rolesData;
@@ -54,7 +56,7 @@ export class DepartmentService {
 
   getProjectUserData(projectId: string, departmentId: string) {
     // tslint:disable-next-line: max-line-length
-    this.http.get<{ message: string, data: any}>('http://localhost:3000/api/project/projectUserData/' + departmentId + '/' + projectId)
+    this.http.get<{ message: string, data: any}>(BACKEND_URL + '/project/projectUserData/' + departmentId + '/' + projectId)
       .subscribe(fetchedData => {
         this.userData = [];
         this.userData = fetchedData.data;
@@ -73,7 +75,7 @@ export class DepartmentService {
       // tslint:disable-next-line:object-literal-shorthand
       department: department
     };
-    this.http.post('http://localhost:3000/api/dept/assignRole', data)
+    this.http.post(BACKEND_URL + '/dept/assignRole', data)
       .subscribe(response => {
         console.log(response);
       });
@@ -81,7 +83,7 @@ export class DepartmentService {
 
   getAssignedUserData(projectId: string, deptId: string) {
     // tslint:disable-next-line: max-line-length
-    this.http.get<{ message: string, data: any}>('http://localhost:3000/api/project/AssignedUserData/' + deptId + '/' + projectId)
+    this.http.get<{ message: string, data: any}>(BACKEND_URL + '/project/AssignedUserData/' + deptId + '/' + projectId)
     .subscribe(fetchedData => {
       this.userData = [];
       this.userData = fetchedData.data;

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Project } from './project.model';
 import { Subject } from 'rxjs';
-
+import { environment } from 'src/environments/environment';
+const BACKEND_URL = environment.apiUrl + '/project/';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class ProjectService {
   constructor(private http: HttpClient) {}
 
   initializeProject(project: Project) {
-    this.http.post('http://localhost:3000/api/project', project)
+    this.http.post(BACKEND_URL, project)
       .subscribe(result => {
         console.log(result);
       });
@@ -27,7 +28,7 @@ export class ProjectService {
 
   getProjectDetail(projectId: string) {
     // tslint:disable-next-line: max-line-length
-    this.http.get<{message: string, iterationData: any, projectData: Project}>('http://localhost:3000/api/project/projectDetail/' + projectId)
+    this.http.get<{message: string, iterationData: any, projectData: Project}>(BACKEND_URL + 'projectDetail/' + projectId)
     .subscribe(response => {
       this.currentProject = response.projectData;
       this.iterationData = response.iterationData;
@@ -44,7 +45,7 @@ export class ProjectService {
 
   findProjects(departmentId: string) {
     if (departmentId === null) {
-      this.http.get<{message: string, projects: Project, length: number}>('http://localhost:3000/api/project/')
+      this.http.get<{message: string, projects: Project, length: number}>(BACKEND_URL)
       .subscribe(projectData => {
         this.projects = projectData.projects;
         this.projectsUpdated.next({
@@ -53,12 +54,12 @@ export class ProjectService {
       });
     } else {
       // tslint:disable-next-line: max-line-length
-      return this.http.get<{message: string, projects: Project, length: number}>('http://localhost:3000/api/project/forDepartment/' + departmentId);
+      return this.http.get<{message: string, projects: Project, length: number}>(BACKEND_URL + 'forDepartment/' + departmentId);
     }
   }
 
   findUserProjects(userId: string) {
-    this.http.get<{message: string, projects: Project}>('http://localhost:3000/api/project/userProjects/' + userId)
+    this.http.get<{message: string, projects: Project}>(BACKEND_URL + 'userProjects/' + userId)
     .subscribe(projectData => {
       this.projects = projectData.projects;
       console.log(this.projects);
@@ -69,7 +70,7 @@ export class ProjectService {
   }
 
   findManagerProjects(userId: string) {
-    this.http.get<{message: string, projects: Project}>('http://localhost:3000/api/project/managerProjects/' + userId)
+    this.http.get<{message: string, projects: Project}>(BACKEND_URL + 'managerProjects/' + userId)
     .subscribe(projectData => {
       this.projects = projectData.projects;
       console.log(this.projects);
@@ -103,7 +104,7 @@ export class ProjectService {
     assignedBy: assignedBy
     };
 
-    this.http.post('http://localhost:3000/api/project/assignProject', data)
+    this.http.post(BACKEND_URL + 'assignProject', data)
       .subscribe(result => {
         console.log(result);
       });
@@ -117,7 +118,7 @@ export class ProjectService {
       // tslint:disable-next-line: object-literal-key-quotes
       'userId': userId
     };
-    this.http.post('http://localhost:3000/api/project/assignUser', data)
+    this.http.post(BACKEND_URL + 'assignUser', data)
       .subscribe(response => {
         console.log(response);
       });
