@@ -2,6 +2,7 @@
   <div class = "float-left">
     <ul class = "navbar-dark bg-dark">
       <li class = "nav-item"><a class = "nav-link active" (click) = "displayDetails()">Project Details</a></li>
+      <li><a class = "nav-link" *ngIf = "managerFlag" (click) = "onAssignProject()">Assign Project</a></li>
       <li><a class = "nav-link" (click) = "displayIterations()">Iterations</a></li>
       <li>
         <a href="#" data-toggle="collapse" data-target="#submenu-1">Documentation <i class="fa fa-fw fa-angle-down pull-right"></i></a>
@@ -30,6 +31,13 @@
     [projectId] = projectId
     >
     </app-delete-defects>
+</div>
+
+<div class = "col-md-9 float-right" *ngIf = "assignProjectFlag">
+    <app-project-assign
+    [projectId] = projectId
+    >
+    </app-project-assign>
 </div>
 
 <div class = "col-md-9 float-right" *ngIf = "closeDefectsFlag">

@@ -13,6 +13,8 @@ export class DepartmentService {
   private userData: any;
   private roles: any;
   private userDataUpdated = new Subject<{ userData: any, roles: any }>();
+  private ProjectUserDataUpdated = new Subject<{ data: any }>();
+  private AssignedUserDataUpdated = new Subject<{ data: any }>();
 
   constructor(private http: HttpClient) {}
 
@@ -50,6 +52,18 @@ export class DepartmentService {
       });
   }
 
+  getProjectUserData(projectId: string, departmentId: string) {
+    // tslint:disable-next-line: max-line-length
+    this.http.get<{ message: string, data: any}>('http://localhost:3000/api/project/projectUserData/' + departmentId + '/' + projectId)
+      .subscribe(fetchedData => {
+        this.userData = [];
+        this.userData = fetchedData.data;
+        this.ProjectUserDataUpdated.next({
+          data: [...this.userData]
+        });
+      });
+  }
+
 
   assignRole(selectedRole: string, userId: string, department: string) {
     const data = {
@@ -65,8 +79,28 @@ export class DepartmentService {
       });
   }
 
+  getAssignedUserData(projectId: string, deptId: string) {
+    // tslint:disable-next-line: max-line-length
+    this.http.get<{ message: string, data: any}>('http://localhost:3000/api/project/AssignedUserData/' + deptId + '/' + projectId)
+    .subscribe(fetchedData => {
+      this.userData = [];
+      this.userData = fetchedData.data;
+      this.AssignedUserDataUpdated.next({
+        data: [...this.userData]
+      });
+    });
+  }
+
   userDataUpdateListener() {
     return this.userDataUpdated.asObservable();
+  }
+
+  ProjectUserDataUpdateListener() {
+    return this.ProjectUserDataUpdated.asObservable();
+  }
+
+  AssignedUserDataUpdateListener() {
+    return this.AssignedUserDataUpdated.asObservable();
   }
 
 }

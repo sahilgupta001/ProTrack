@@ -13,7 +13,6 @@ import { CreateDepartmentComponent } from './modules/admin-module/department/cre
 import { RolesComponent } from './modules/admin-module/department/createRoles/roles.component';
 import { AssignRolesComponent } from './modules/admin-module/department/assignRoles/assign-roles.component';
 import { InitializeProjectComponent } from './modules/admin-module/project/initialize-project/initialize-project.component';
-import { AssignProjectComponent } from './modules/admin-module/project/assign-project/assign-project.component';
 import { ProjectListComponent } from './modules/admin-module/project/project-list/project-list.component';
 import { AdminHeaderComponent } from './modules/admin-module/admin-header/admin-header.component';
 import { DepartmentHeaderComponent } from './shared/department-header/department-header.component';
@@ -26,6 +25,8 @@ import { DefectRaiseBulkComponent } from './shared/defect/defect-raise-bulk/defe
 import { ViewDocumentsComponent } from './shared/documentation/view-documents/view-documents.component';
 import { CloseDefectsComponent } from './shared/defect/close-defects/close-defects.component';
 import { DeleteDefectsComponent } from './modules/admin-module/delete-defects/delete-defects.component';
+import { AssignProjectComponent } from './modules/admin-module/project/assign-project/assign-project.component';
+import { ProjectAssignComponent } from './shared/project-assign/project-assign.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { DeleteDefectsComponent } from './modules/admin-module/delete-defects/de
     DefectRaiseBulkComponent,
     CloseDefectsComponent,
     ViewDocumentsComponent,
-    DeleteDefectsComponent
+    DeleteDefectsComponent,
+    ProjectAssignComponent
   ],
   imports: [
     BrowserModule,

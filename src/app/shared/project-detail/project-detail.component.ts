@@ -24,12 +24,18 @@ export class ProjectDetailComponent implements OnInit {
   closeDefectsFlag = false;
   deleteDefectFlag = false;
   adminFlag = false;
+  managerFlag = false;
+  assignProjectFlag = false;
   private projectDataUpdated = new Subscription();
 
   constructor(private route: ActivatedRoute, private router: Router, private projectService: ProjectService) {}
 
   ngOnInit() {
     this.roleId = localStorage.getItem('roleId');
+    if (this.roleId === 'PU_MNG_104' || this.roleId === 'PVG_MNG_104') {
+      this.managerFlag = true;
+    }
+    console.log(this.managerFlag);
     this.route.paramMap.subscribe(paramMap => {
       this.projectId = paramMap.get('projectId');
     });
@@ -50,6 +56,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   displayIterations() {
+    this.assignProjectFlag = false;
     this.deleteDefectFlag = false;
     this.closeDefectsFlag = false;
     this.viewDocumentsFlag = false;
@@ -62,6 +69,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   displayDetails() {
+    this.assignProjectFlag = false;
     this.deleteDefectFlag = false;
     this.closeDefectsFlag = false;
     this.viewDocumentsFlag = false;
@@ -74,6 +82,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   documentUpload() {
+    this.assignProjectFlag = false;
     this.deleteDefectFlag = false;
     this.closeDefectsFlag = false;
     this.viewDocumentsFlag = false;
@@ -86,6 +95,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   defectRaise() {
+    this.assignProjectFlag = false;
     this.deleteDefectFlag = false;
     this.closeDefectsFlag = false;
     this.viewDocumentsFlag = false;
@@ -98,6 +108,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   defectSummary() {
+    this.assignProjectFlag = false;
     this.deleteDefectFlag = false;
     this.closeDefectsFlag = false;
     this.viewDocumentsFlag = false;
@@ -110,6 +121,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   defectRaiseBulk() {
+    this.assignProjectFlag = false;
     this.deleteDefectFlag = false;
     this.closeDefectsFlag = false;
     this.viewDocumentsFlag = false;
@@ -122,6 +134,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   viewDocuments() {
+    this.assignProjectFlag = false;
     this.deleteDefectFlag = false;
     this.closeDefectsFlag = false;
     this.viewDocumentsFlag = true;
@@ -134,6 +147,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   closeDefects() {
+    this.assignProjectFlag = false;
     this.deleteDefectFlag = false;
     this.closeDefectsFlag = true;
     this.viewDocumentsFlag = false;
@@ -146,6 +160,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   deleteDefects() {
+    this.assignProjectFlag = false;
     this.deleteDefectFlag = true;
     this.closeDefectsFlag = false;
     this.viewDocumentsFlag = false;
@@ -157,4 +172,16 @@ export class ProjectDetailComponent implements OnInit {
     this.defectBulkRaiseFlag = false;
   }
 
+  onAssignProject() {
+    this.assignProjectFlag = true;
+    this.deleteDefectFlag = false;
+    this.closeDefectsFlag = false;
+    this.viewDocumentsFlag = false;
+    this.defectRaiseFlag = false;
+    this.iterationFlag = false;
+    this.projectDetailFlag = false;
+    this.documentUploadFlag = false;
+    this.defectSummaryFlag = false;
+    this.defectBulkRaiseFlag = false;
+  }
 }

@@ -14,6 +14,7 @@ export class ProjectService {
   iterationData: any;
 
   private projectsUpdated = new Subject<{ projects: Project }>();
+  private managerProjectsUpdated = new Subject<{ projects: Project }>();
   private currentProjectDataUpdated = new Subject<{ project: Project, iterationData: any }>();
   constructor(private http: HttpClient) {}
 
@@ -57,10 +58,22 @@ export class ProjectService {
   }
 
   findUserProjects(userId: string) {
-    this.http.get<{message: string, projects: Project, length: number}>('http://localhost:3000/api/project/userProjects/' + userId)
+    this.http.get<{message: string, projects: Project}>('http://localhost:3000/api/project/userProjects/' + userId)
     .subscribe(projectData => {
       this.projects = projectData.projects;
+      console.log(this.projects);
       this.projectsUpdated.next({
+        projects: this.projects
+      });
+    });
+  }
+
+  findManagerProjects(userId: string) {
+    this.http.get<{message: string, projects: Project}>('http://localhost:3000/api/project/managerProjects/' + userId)
+    .subscribe(projectData => {
+      this.projects = projectData.projects;
+      console.log(this.projects);
+      this.managerProjectsUpdated.next({
         projects: this.projects
       });
     });
@@ -68,6 +81,10 @@ export class ProjectService {
 
   getProjectsUpdatedListener() {
     return this.projectsUpdated.asObservable();
+  }
+
+  getManagerProjectsUpdatedListener() {
+    return this.managerProjectsUpdated.asObservable();
   }
 
   assignProject(projectId: string, status: string, department: string, manager: string, currentDepartment: string) {
@@ -92,4 +109,17 @@ export class ProjectService {
       });
   }
 
+  assignUser(projectId: string, userId: number) {
+    const data = {
+      // tslint:disable-next-line: object-literal-shorthand
+      // tslint:disable-next-line: object-literal-key-quotes
+      'projectId': projectId,
+      // tslint:disable-next-line: object-literal-key-quotes
+      'userId': userId
+    };
+    this.http.post('http://localhost:3000/api/project/assignUser', data)
+      .subscribe(response => {
+        console.log(response);
+      });
+  }
 }

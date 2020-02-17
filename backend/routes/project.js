@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const async = require('async');
 const connection = require('../db-config');
 
 router.get('/', function(req, res, next) {
@@ -48,8 +49,7 @@ router.get('/projectDetail/:projectId', function(req, res, next) {
   });
 });
 
-
-router.get('/userProjects/:userId', function(req, res, next) {
+router.get('/managerProjects/:userId', function(req, res, next) {
   connection.query('select * from project where currently_assigned_user = ?', [req.params.userId], function(err, projects) {
     if(err) {
       res.status(500).json({
@@ -59,13 +59,177 @@ router.get('/userProjects/:userId', function(req, res, next) {
     else {
       res.status(200).json({
         message: 'Projects are fetched successfully',
-        projects: projects,
-        length: projects.length
+        projects: projects
       })
     }
   })
 });
 
+router.get('/userProjects/:userId', function(req, res, next) {
+  connection.query('select project_id from project', function(err, projects) {
+    if(err) {
+      res.status(500).json({
+        message: "The projectsId's were not fetched"
+      });
+    }
+    else {
+      fetchProjects(projects, req.params.userId, function(err, data) {
+        if(err) {
+          res.status(500).json({
+            message: err
+          })
+        } else {
+          console.log(data);
+          res.status(200).json({
+            message: 'Projects are fetched successfully',
+            projects: data[0]
+          })
+        }
+      });
+    }
+  })
+});
+
+router.post('/assignUser', (req, res, next) => {
+  iterationNo(req.body.projectId, function(err, iteration_no) {
+    if(err) {
+      res.status(500).json({
+        message: err
+      })
+    } else {
+      const data = [
+      [
+        null,
+        iteration_no,
+        req.body.userId
+      ]
+        ];
+      const sql = 'insert into users_' + req.body.projectId + ' values ?'
+      connection.query(sql, [data], function(err, result) {
+        if(err) {
+          console.log(err.sqlMessage);
+        } else {
+          res.status(200).json({
+            message: 'The user has been successfully assigned'
+          })
+        }
+      })
+    }
+  });
+});
+
+router.get('/projectUserData/:deptId/:projectId', function(req, res, next) {
+  const sql = 'create table if not exists users_' + req.params.projectId + '(sno int primary key auto_increment, iteration_no int not null, user_id int not null, foreign key(iteration_no) references pro_' + req.params.projectId + '(iteration_no), foreign key(user_id) references user(user_id))';
+  connection.query(sql, function(err, result) {
+    if(err) {
+      console.log(err.sqlMessage);
+      res.status(500).json({
+        message: 'Unable to create the table'
+      })
+    } else {
+      const sql1 = "select t1.user_id, t1.fname, t1.lname, t1.email_id, t1.phone_no, t1.role_id from user t1 left join users_" + req.params.projectId + " t2 on t2.user_id = t1.user_id where t2.user_id is null and t1.department_id = '" + req.params.deptId + "'";
+      connection.query(sql1, function(err, result) {
+        if(err) {
+          console.log(err.sqlMessage);
+          res.status(500).json({
+            message: 'The data was not fetched'
+          });
+        } else {
+            if(result.length > 0) {
+              res.status(200).json({
+                message: 'The users for the given department have been fetched successfully',
+                data: result
+              });
+            } else {
+              res.status(200).json({
+                message: 'There are no managers for this department',
+                data: []
+              });
+            }
+          }
+      });
+    }
+  });
+});
+
+
+router.get('/AssignedUserData/:deptId/:projectId', function(req, res, next) {
+  const sql = 'create table if not exists users_' + req.params.projectId + '(sno int primary key auto_increment, iteration_no int not null, user_id int not null, foreign key(iteration_no) references pro_' + req.params.projectId + '(iteration_no), foreign key(user_id) references user(user_id))';
+  connection.query(sql, function(err, result) {
+    if(err) {
+      console.log(err.sqlMessage);
+      res.status(500).json({
+        message: 'Unable to create the table'
+      })
+    } else {
+      const sql1 = "select t1.user_id, t1.fname, t1.lname, t1.email_id, t1.phone_no, t1.role_id from user t1, users_" + req.params.projectId + " t2 where t2.user_id = t1.user_id";;
+      connection.query(sql1, function(err, result) {
+        if(err) {
+          console.log(err.sqlMessage);
+          res.status(500).json({
+            message: 'The data was not fetched'
+          });
+        } else {
+            if(result.length > 0) {
+              res.status(200).json({
+                message: 'The users for the given department have been fetched successfully',
+                data: result
+              });
+            } else {
+              res.status(200).json({
+                message: 'There are no managers for this department',
+                data: []
+              });
+            }
+          }
+      });
+    }
+  });
+});
+
+
+function iterationNo (projectId, callback) {
+  connection.query('select iteration_no from pro_' + projectId  + ' order by iteration_no desc limit 1', function(err, result) {
+    if(err) {
+      return callback(err.sqlMessage, false);
+    } else {
+      var iteration_no = parseInt(result[0].iteration_no);
+      return callback(false, iteration_no);
+    }
+  })
+}
+
+
+function fetchProjects (projects, userId, callback) {
+  var projectIds = [];
+    async.forEach(projects, function(row, cb) {
+      const sql = 'create table if not exists users_' + row.project_id + '(sno int primary key auto_increment, iteration_no int not null, user_id int not null, foreign key(iteration_no) references pro_' + row.project_id + '(iteration_no), foreign key(user_id) references user(user_id))';
+      connection.query(sql, function(err, result) {
+        if(err) {
+          cb(err);
+        } else {
+          console.log("Table created");
+          const sql1 = "select distinct t1.project_id, t1.project_name, t1.client, t1.initial_department_id, t1.start_date, t1.status, t1.current_department, t1.currently_assigned_user from project t1, users_" + row.project_id + " t2 where t1.project_id = '" + row.project_id + "' and (select user_id from users_" + row.project_id +" where user_id = " + userId + ")";
+          connection.query(sql1, function(err, result1) {
+            if(err) {
+              cb(err);
+            } else {
+              console.log(result1);
+              if(result1.length > 0) {
+                projectIds.push(result1);
+                cb();
+              } else {
+                cb();
+              }
+            }
+          });
+        }
+      });
+    }, function(err, result) {
+      console.log("Calling callback");
+      return callback(false, projectIds);
+    });
+}
 
 router.post('/', function(req, res, next) {
   const date = new Date();

@@ -5,8 +5,7 @@ import { DepartmentService } from '../department.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  templateUrl: './assign-roles.component.html',
-  styleUrls: ['./assign-roles.component.css']
+  templateUrl: './assign-roles.component.html'
 })
 
 export class AssignRolesComponent implements OnInit {
@@ -38,7 +37,12 @@ export class AssignRolesComponent implements OnInit {
       return;
     }
     this.selectedDepartment = form.value.department;
-    this.departmentService.getUserData(form.value.department);
+    this.setUserData();
+
+  }
+
+  setUserData() {
+    this.departmentService.getUserData(this.selectedDepartment);
     this.departmentSub = this.departmentService.userDataUpdateListener()
       .subscribe((data) => {
         // console.log(data.userData);
@@ -53,8 +57,8 @@ export class AssignRolesComponent implements OnInit {
   }
 
   onAssign() {
-
     this.departmentService.assignRole(this.selectedRole, this.userId, this.selectedDepartment);
+    this.setUserData();
   }
 
 }

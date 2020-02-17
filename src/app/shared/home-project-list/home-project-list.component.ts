@@ -33,12 +33,20 @@ export class HomeProjectListComponent implements OnInit {
 
     ngOnInit() {
         this.userId = localStorage.getItem('userId');
-        this.projectService.findUserProjects(this.userId);
-        this.userProjectsSub = this.projectService.getProjectsUpdatedListener()
-            .subscribe((projectData: { projects: Project }) => {
-                this.projects = projectData.projects;
-            });
         this.checkUser();
+        if (this.isManagerFlag === true) {
+          this.projectService.findManagerProjects(this.userId);
+          this.userProjectsSub = this.projectService.getManagerProjectsUpdatedListener()
+              .subscribe((projectData: { projects: Project }) => {
+                  this.projects = projectData.projects;
+              });
+        } else {
+          this.projectService.findUserProjects(this.userId);
+          this.userProjectsSub = this.projectService.getProjectsUpdatedListener()
+              .subscribe((projectData: { projects: Project }) => {
+                  this.projects = projectData.projects;
+              });
+        }
         this.setDepartmentList();
     }
 
@@ -73,7 +81,6 @@ export class HomeProjectListComponent implements OnInit {
 
     checkUser() {
       const roleId = localStorage.getItem('roleId');
-      // console.log(roleId);
       if (roleId === 'PU_MNG_104' || roleId === 'PVG_MNG_104') {
         this.isManagerFlag = true;
       }
