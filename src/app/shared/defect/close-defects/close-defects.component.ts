@@ -16,6 +16,10 @@ export class CloseDefectsComponent implements OnInit {
 
   ngOnInit() {
     this.userId = localStorage.getItem('userId');
+    this.getDefects();
+  }
+
+  getDefects() {
     this.defectService.getUserDefects(this.projectId, this.userId)
     .subscribe(response => {
       this.defects = response.defects;
@@ -35,5 +39,6 @@ export class CloseDefectsComponent implements OnInit {
       .subscribe(response => {
         console.log(response);
       });
+    this.getDefects();
   }
 }

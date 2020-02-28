@@ -21,7 +21,8 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/projectDetail/:projectId', function(req, res, next) {
-  const sql = 'select * from pro_' + req.params.projectId;
+  const sql = 'select * from ??';
+  const projectId = "pro_" + req.params.projectId;
   connection.query('select * from project where project_id = ?', [req.params.projectId], function(err, projectInfo) {
     if(err) {
       console.log(err.sqlMessage);
@@ -30,8 +31,9 @@ router.get('/projectDetail/:projectId', function(req, res, next) {
         error: err.sqlMessage
       });
     } else {
-      connection.query(sql, function(err, iterationInfo) {
+      connection.query(sql, [projectId], function(err, iterationInfo) {
         if(err) {
+          console.log(err.sqlMessage);
           res.status(500).json({
             message: 'Unable to fetch the data',
             error: err.sqlMessage
@@ -104,8 +106,9 @@ router.post('/assignUser', (req, res, next) => {
         req.body.userId
       ]
         ];
-      const sql = 'insert into users_' + req.body.projectId + ' values ?'
-      connection.query(sql, [data], function(err, result) {
+      const sql = 'insert into ?? values ?'
+      const table = 'users_' + req.body.projectId;
+      connection.query(sql, [table, data], function(err, result) {
         if(err) {
           console.log(err.sqlMessage);
         } else {
@@ -119,16 +122,18 @@ router.post('/assignUser', (req, res, next) => {
 });
 
 router.get('/projectUserData/:deptId/:projectId', function(req, res, next) {
-  const sql = 'create table if not exists users_' + req.params.projectId + '(sno int primary key auto_increment, iteration_no int not null, user_id int not null, foreign key(iteration_no) references pro_' + req.params.projectId + '(iteration_no), foreign key(user_id) references user(user_id))';
-  connection.query(sql, function(err, result) {
+  const sql = 'create table if not exists ??(sno int primary key auto_increment, iteration_no int not null, user_id int not null, foreign key(iteration_no) references ??(iteration_no), foreign key(user_id) references user(user_id))';
+  const table = 'users_' + req.params.projectId;
+  const table1 = 'pro_' + req.params.projectId;
+  connection.query(sql, [table, table1], function(err, result) {
     if(err) {
       console.log(err.sqlMessage);
       res.status(500).json({
         message: 'Unable to create the table'
       })
     } else {
-      const sql1 = "select t1.user_id, t1.fname, t1.lname, t1.email_id, t1.phone_no, t1.role_id from user t1 left join users_" + req.params.projectId + " t2 on t2.user_id = t1.user_id where t2.user_id is null and t1.department_id = '" + req.params.deptId + "'";
-      connection.query(sql1, function(err, result) {
+      const sql1 = "select t1.user_id, t1.fname, t1.lname, t1.email_id, t1.phone_no, t1.role_id from user t1 left join ?? t2 on t2.user_id = t1.user_id where t2.user_id is null and t1.department_id = ?";
+      connection.query(sql1, [table, req.params.deptId], function(err, result) {
         if(err) {
           console.log(err.sqlMessage);
           res.status(500).json({
@@ -154,16 +159,18 @@ router.get('/projectUserData/:deptId/:projectId', function(req, res, next) {
 
 
 router.get('/AssignedUserData/:deptId/:projectId', function(req, res, next) {
-  const sql = 'create table if not exists users_' + req.params.projectId + '(sno int primary key auto_increment, iteration_no int not null, user_id int not null, foreign key(iteration_no) references pro_' + req.params.projectId + '(iteration_no), foreign key(user_id) references user(user_id))';
-  connection.query(sql, function(err, result) {
+  const sql = 'create table if not exists ??(sno int primary key auto_increment, iteration_no int not null, user_id int not null, foreign key(iteration_no) references ??(iteration_no), foreign key(user_id) references user(user_id))';
+  const table = 'users_' + req.params.projectId;
+  const table1 = 'pro_' + req.params.projectId;
+  connection.query(sql, [table, table1], function(err, result) {
     if(err) {
       console.log(err.sqlMessage);
       res.status(500).json({
         message: 'Unable to create the table'
       })
     } else {
-      const sql1 = "select t1.user_id, t1.fname, t1.lname, t1.email_id, t1.phone_no, t1.role_id from user t1, users_" + req.params.projectId + " t2 where t2.user_id = t1.user_id";;
-      connection.query(sql1, function(err, result) {
+      const sql1 = "select t1.user_id, t1.fname, t1.lname, t1.email_id, t1.phone_no, t1.role_id from user t1, ?? t2 where t2.user_id = t1.user_id";
+      connection.query(sql1, [table], function(err, result) {
         if(err) {
           console.log(err.sqlMessage);
           res.status(500).json({
@@ -189,7 +196,8 @@ router.get('/AssignedUserData/:deptId/:projectId', function(req, res, next) {
 
 
 function iterationNo (projectId, callback) {
-  connection.query('select iteration_no from pro_' + projectId  + ' order by iteration_no desc limit 1', function(err, result) {
+  const table = 'pro_' + projectId;
+  connection.query('select iteration_no from ?? order by iteration_no desc limit 1', [table], function(err, result) {
     if(err) {
       return callback(err.sqlMessage, false);
     } else {
@@ -203,18 +211,19 @@ function iterationNo (projectId, callback) {
 function fetchProjects (projects, userId, callback) {
   var projectIds = [];
     async.forEach(projects, function(row, cb) {
-      const sql = 'create table if not exists users_' + row.project_id + '(sno int primary key auto_increment, iteration_no int not null, user_id int not null, foreign key(iteration_no) references pro_' + row.project_id + '(iteration_no), foreign key(user_id) references user(user_id))';
-      connection.query(sql, function(err, result) {
+      const sql = 'create table if not exists ??(sno int primary key auto_increment, iteration_no int not null, user_id int not null, foreign key(iteration_no) references ??(iteration_no), foreign key(user_id) references user(user_id))';
+      let table =  'users_' + row.project_id;
+      let table1 =  'pro_' + row.project_id;
+      connection.query(sql, [table, table1], function(err, result) {
         if(err) {
           cb(err);
         } else {
           console.log("Table created");
-          const sql1 = "select distinct t1.project_id, t1.project_name, t1.client, t1.initial_department_id, t1.start_date, t1.status, t1.current_department, t1.currently_assigned_user from project t1, users_" + row.project_id + " t2 where t1.project_id = '" + row.project_id + "' and (select user_id from users_" + row.project_id +" where user_id = " + userId + ")";
-          connection.query(sql1, function(err, result1) {
+          const sql1 = "select distinct t1.project_id, t1.project_name, t1.client, t1.initial_department_id, t1.start_date, t1.status, t1.current_department, t1.currently_assigned_user from project t1, ?? t2 where t1.project_id = ? and (select user_id from ?? where user_id = ?)";
+          connection.query(sql1, [table, row.project_id, table, userId], function(err, result1) {
             if(err) {
               cb(err);
             } else {
-              console.log(result1);
               if(result1.length > 0) {
                 projectIds.push(result1);
                 cb();
@@ -254,8 +263,9 @@ router.post('/', function(req, res, next) {
       })
     }
     else {
-      const sql = 'create table PRO_' + req.body.project_id +'( iteration_no int(10) auto_increment primary key, previous_department varchar(20) not null, current_department varchar(20) not null, assigned_date date not null, assigned_user int(11) not null, assigned_by int(11) not null, status varchar(20) not null, foreign key(current_department) references department(department_id), foreign key(previous_department) references department(department_id), foreign key(assigned_user) references user(user_id), foreign key(assigned_by) references user(user_id))';
-      connection.query(sql, function(err, result1) {
+      const sql = 'create table ??( iteration_no int(10) auto_increment primary key, previous_department varchar(20) not null, current_department varchar(20) not null, assigned_date date not null, assigned_user int(11) not null, assigned_by int(11) not null, status varchar(20) not null, foreign key(current_department) references department(department_id), foreign key(previous_department) references department(department_id), foreign key(assigned_user) references user(user_id), foreign key(assigned_by) references user(user_id))';
+      const table = 'PRO_' + req.body.project_id;
+      connection.query(sql, [table], function(err, result1) {
         if(err) {
           console.log(err.sqlMessage);
           res.status(500).json({
@@ -322,8 +332,9 @@ router.post('/assignProject', function(req, res, next) {
               req.body.status
             ]
           ];
-        sql = 'insert into pro_' + req.body.projectId + ' values ?';
-        connection.query(sql, [data], function(err, results1) {
+        sql = 'insert into ?? values ?';
+        const table = 'pro_' + req.body.projectId;
+        connection.query(sql, [table, data], function(err, results1) {
           if(err) {
             console.log(err.sqlMessage);
             res.status(500).json({

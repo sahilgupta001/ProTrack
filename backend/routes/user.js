@@ -11,8 +11,8 @@ var departments = [];
 router.post('/login', (req, res, next) => {
   let email = req.body.email;
   let fetchedUser;
-  let query = "select * from user where email_id = '" + email + "'";
-  connection.query(query, function(err, results) {
+  let query = "select * from user where email_id = ?";
+  connection.query(query, [email], function(err, results) {
     if(err) {
       throw err;
     } else if (results.length > 0){
