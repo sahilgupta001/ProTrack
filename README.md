@@ -3,13 +3,13 @@
 This project is created to manage the complete lifecycle of a project in IT companies.
 
 This project was generated with:-
-
+```
 [Angular CLI](https://github.com/angular/angular-cli) version 8.3.21.
 
 [Nodejs](https://nodejs.org/en/docs/) version 12.14.0.
 
 [MySql](https://dev.mysql.com/doc/) version 8.0.18.
-
+```
 ##Introduction
 
 The advent of ERP systems has led the tech giants to cut down the operational costs and to manage their production environment with ease. ERP systems are quite popular among the leading companies, be it of any bacckground. But, with the governments over the world, actively working on the ease of doing business, many startups and medium level organisations have come into business. These small scale companies or startups find it difficult to manage the projects. Due to financial incapabilities at the budding stage of the business, they cannot afford to buy an ERP system. 
@@ -25,7 +25,6 @@ The project is dividded into three modules :-
 > **PVG (Product Validation Group) Module**
 
 > **PU (Production Unit) Module**
-
 
 ### ADMIN Module
 
