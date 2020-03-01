@@ -1,7 +1,14 @@
 # ProTrack
 
 This project is created to manage the complete lifecycle of a project in IT companies.
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.21.
+
+This project was generated with:-
+
+[Angular CLI](https://github.com/angular/angular-cli) version 8.3.21.
+
+[Nodejs](https://nodejs.org/en/docs/) version 12.14.0.
+
+[MySql](https://dev.mysql.com/doc/) version 8.0.18.
 
 ##Introduction
 
@@ -19,7 +26,66 @@ The project is dividded into three modules :-
 
 > **PU (Production Unit) Module**
 
-### ADMIN MODULE
+
+### ADMIN Module
+
+	The module is the powerhouse of the system.
+
+	The module works as the initiator module.
+
+	It gives the power to a person (administrator) to get the control over the system.
+
+	The  module allows an admin with the :-
+
+    >	Departmental Functions
+    >	Project Functions
+    >	User Functions.
+    >	Role Functions
+    >	The admin is responsible to add user to the system.
+    >	The admin will be responsible to assign a role to the created user.
+    >	The admin can create and delete a department from the system.
+    >	The admin can initiate a new project in the system.
+    >	The admin can assign the project to the managers of the department.
+
+### PU(Production Unit) Module
+
+	The PU module allows for the structural division of the organisation.
+
+	The PU module refers to the production unit.
+
+	The Production Unit has users at various levels and are designated a task to develop a software product as per the needs.
+
+	The Production Manager will be assigned a project by the admin of the system.
+
+	The Project Manager can in turn delegate the responsibility amongst the team members under him.
+
+	The Production Unit employees can then perform all day to day requirement operation on the system.
+
+	The system will allow the users at all the levels to:
+
+    >	Raise Bugs
+    >	View Iteration Reports
+    >	Manage Documentation
+
+### PVG (Product Validation Group) Module
+
+	The PVG module allows for the structural division of the organisation.
+
+	The PVG module refers to the Product Validation Group.
+
+	The unit has users at various levels and are designated a task to check a software product for quality assurance.
+
+	The Manager will be assigned a project by the admin of the system.
+
+	The Project Manager can in turn delegate the responsibility amongst the team members under him.
+
+	The Employees can then perform all day to day requirement operation on the system.
+
+	The system will allow the users at all the levels to:
+
+    >	Raise Bugs
+    >	View Iteration Reports
+    >	Manage Documentation
 
 
 ## Database Design
@@ -162,8 +228,12 @@ The project is dividded into three modules :-
 
 ## Development server
 
+The app is built to run on two servers i.e one server ffor the Node.js backend and the other server for the Angular Frontend.
+
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-Run `npm run start:server` for a nodejs backend. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
+Run `npm run start:server` for a nodejs backend server. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
+
+You can change the server ip addresses inside the environment.ts file in environment folder in the root directory.
 
 ## Code scaffolding
 
