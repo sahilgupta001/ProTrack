@@ -25,7 +25,7 @@
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",
-    "csv-file-validator": "^1.7.4",
+    "csv-file-validator": "^1.13.1",
     "express": "^4.17.1",
     "file-saver": "^2.0.2",
     "jquery": "^3.4.1",
